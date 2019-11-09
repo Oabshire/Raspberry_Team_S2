@@ -42,7 +42,7 @@ class StartViewController: UIViewController {
        
        @objc
        func start(){
-        let loggedIn = false
+        let loggedIn = true
         
         if loggedIn {
             

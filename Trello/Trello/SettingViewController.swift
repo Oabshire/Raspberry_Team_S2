@@ -39,7 +39,8 @@ class SettingViewController: UIViewController {
     @objc
     func logOut(){
         let regVC = RegistrationViewController()
-        dismiss(animated: true, completion: nil)
+        navigationController?.pushViewController(regVC, animated: true)
+       // dismiss(animated: true, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
