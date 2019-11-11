@@ -11,12 +11,15 @@ import UIKit
 
 class NoteViewController: UIViewController {
     
+    let noteService = NoteService.shared
+    
+    
     public static var notesCount = 0
+    public let tableView = UITableView()
     
     init() {
         super.init(nibName: nil, bundle: nil)
         self.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -29,22 +32,61 @@ class NoteViewController: UIViewController {
         let barItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(itemPressed))
         navigationController?.viewControllers[0].navigationItem.rightBarButtonItem = barItem
         
-        navigationController?.viewControllers[0].title = "Заметки (\(NoteViewController.notesCount))"
+        navigationController?.viewControllers[0].title = "Заметки (\(noteService.notes.count))"
         view.backgroundColor = .green
+        navigationItem.leftBarButtonItem = editButtonItem
         
+        tableView.frame = view.frame
+        tableView.delegate = self
+        tableView.dataSource = self
+        view.addSubview(tableView)
+        
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.reuseId)
+        
+    }
+	
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.viewControllers[0].title = "Заметки (\(noteService.notes.count))"
+		
+		tableView.reloadData()
     }
     
     @objc
     func itemPressed() {
         let newNoteVC = NewNoteViewController()
+
         navigationController?.pushViewController(newNoteVC, animated: true)
+		
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(false, animated: true)
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: true)
+        tableView.setEditing(tableView.isEditing, animated: true)
+    }
+}
+
+extension NoteViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.reuseId, for: indexPath) as! TableViewCell
+        let note = noteService.notes[indexPath.row]
+        cell.noteLabel.text = note
         
-        navigationController?.viewControllers[0].title = "Заметки (\(NoteViewController.notesCount))"
+        return cell
     }
     
-    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return noteService.notes.count
+    }
+}
+
+extension NoteViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let NewCellIndexPath = IndexPath(row: noteService.notes.count-1, section: 0)
+        tableView.beginUpdates()
+        tableView.insertRows(at: [NewCellIndexPath], with: .automatic)
+        tableView.endUpdates()
+        tableView.reloadData()
+    }
 }

@@ -13,7 +13,7 @@ class BaseTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let taskViewController = UINavigationController(rootViewController: TaskViewController())
+        let taskViewController = UINavigationController(rootViewController: TaskViewController() )
         
         
         let noteViewController = UINavigationController(rootViewController: NoteViewController())
