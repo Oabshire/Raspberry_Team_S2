@@ -22,6 +22,7 @@
 		096524DB237806400047D8D1 /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096524DA237806400047D8D1 /* BaseTabBarController.swift */; };
 		36419F1B2379DB3400E95AE5 /* NoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36419F1A2379DB3400E95AE5 /* NoteService.swift */; };
 		369D8B092378C18300CF4708 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369D8B082378C18300CF4708 /* TableViewCell.swift */; };
+		A7034640237ABE400044F446 /* TaskModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A703463F237ABE400044F446 /* TaskModel.swift */; };
 		A79E24C8237A01DA00B5F12E /* EachTaskCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E24C3237A01DA00B5F12E /* EachTaskCollectionViewCell.swift */; };
 		A79E24C9237A01DA00B5F12E /* TaskListsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E24C4237A01DA00B5F12E /* TaskListsCollectionView.swift */; };
 		A79E24CA237A01DA00B5F12E /* TaskListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E24C5237A01DA00B5F12E /* TaskListCell.swift */; };
@@ -47,6 +48,7 @@
 		096524DA237806400047D8D1 /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		36419F1A2379DB3400E95AE5 /* NoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteService.swift; sourceTree = "<group>"; };
 		369D8B082378C18300CF4708 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		A703463F237ABE400044F446 /* TaskModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModel.swift; sourceTree = "<group>"; };
 		A79E24C3237A01DA00B5F12E /* EachTaskCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EachTaskCollectionViewCell.swift; sourceTree = "<group>"; };
 		A79E24C4237A01DA00B5F12E /* TaskListsCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskListsCollectionView.swift; sourceTree = "<group>"; };
 		A79E24C5237A01DA00B5F12E /* TaskListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskListCell.swift; sourceTree = "<group>"; };
@@ -90,8 +92,8 @@
 				096524CE2378053C0047D8D1 /* NoteViewController.swift */,
 				096524D0237805700047D8D1 /* NewNoteViewController.swift */,
 				369D8B082378C18300CF4708 /* TableViewCell.swift */,
-				A7C3CFC02379E64B000FEAC8 /* TaskView */,
 				36419F1A2379DB3400E95AE5 /* NoteService.swift */,
+				A7C3CFC02379E64B000FEAC8 /* TaskView */,
 				096524D2237805B30047D8D1 /* SettingViewController.swift */,
 				096524D4237805D60047D8D1 /* RegistrationViewController.swift */,
 				096524D6237805F10047D8D1 /* SignInViewController.swift */,
@@ -113,6 +115,7 @@
 				A79E24C4237A01DA00B5F12E /* TaskListsCollectionView.swift */,
 				A79E24C6237A01DA00B5F12E /* TaskView.swift */,
 				A79E24C7237A01DA00B5F12E /* TaskViewController.swift */,
+				A703463F237ABE400044F446 /* TaskModel.swift */,
 			);
 			path = TaskView;
 			sourceTree = "<group>";
@@ -200,6 +203,7 @@
 				096524D7237805F10047D8D1 /* SignInViewController.swift in Sources */,
 				096524CB237804FB0047D8D1 /* StartViewController.swift in Sources */,
 				A79E24C9237A01DA00B5F12E /* TaskListsCollectionView.swift in Sources */,
+				A7034640237ABE400044F446 /* TaskModel.swift in Sources */,
 				369D8B092378C18300CF4708 /* TableViewCell.swift in Sources */,
 				096524D3237805B30047D8D1 /* SettingViewController.swift in Sources */,
 				A79E24CC237A01DA00B5F12E /* TaskViewController.swift in Sources */,
@@ -351,7 +355,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = YZ7WPJDTA7;
+				DEVELOPMENT_TEAM = 58M7S2B4JE;
 				INFOPLIST_FILE = Trello/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -369,7 +373,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = YZ7WPJDTA7;
+				DEVELOPMENT_TEAM = 58M7S2B4JE;
 				INFOPLIST_FILE = Trello/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

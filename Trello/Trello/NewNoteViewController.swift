@@ -11,10 +11,12 @@ import UIKit
 
 class NewNoteViewController: UIViewController {
     
-    
+    var tеmpIndex = 0
     let noteService = NoteService.shared
+    let noteVC = NoteViewController()
     
     let textField = UITextView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .cyan
@@ -32,11 +34,19 @@ class NewNoteViewController: UIViewController {
     
     @objc
     func saveNote(){
-       // NoteViewController.notesCount =  NoteViewController.notesCount + 1
-        if let temp = textField.text {
-            noteService.notes.append(temp)
+        if noteService.isEdit {
+            if let temp = textField.text {
+                noteVC.noteService.notes[tеmpIndex] = temp
+            }
+        } else {
+            if let temp = textField.text {
+                noteService.notes.append(temp)
+            }
         }
+        
+       
         textField.resignFirstResponder()
+        noteService.isEdit = false
         navigationController?.popViewController(animated: true)
     }
 }
