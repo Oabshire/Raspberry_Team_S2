@@ -110,11 +110,11 @@
 		A7C3CFC02379E64B000FEAC8 /* TaskView */ = {
 			isa = PBXGroup;
 			children = (
-				A79E24C3237A01DA00B5F12E /* EachTaskCollectionViewCell.swift */,
+				A79E24C7237A01DA00B5F12E /* TaskViewController.swift */,
 				A79E24C5237A01DA00B5F12E /* TaskListCell.swift */,
 				A79E24C4237A01DA00B5F12E /* TaskListsCollectionView.swift */,
 				A79E24C6237A01DA00B5F12E /* TaskView.swift */,
-				A79E24C7237A01DA00B5F12E /* TaskViewController.swift */,
+				A79E24C3237A01DA00B5F12E /* EachTaskCollectionViewCell.swift */,
 				A703463F237ABE400044F446 /* TaskModel.swift */,
 			);
 			path = TaskView;

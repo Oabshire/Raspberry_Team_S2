@@ -25,7 +25,7 @@ class EachTaskCollectionViewCell: UICollectionViewCell {
 		textOfTask.frame = CGRect(x: 10, y: 50, width: frame.size.width - 20, height: frame.size.height - 60)
 		
 		textOfTask.backgroundColor = .lightText
-		textOfTask.text = "description"
+//		textOfTask.text = "description"
 		textOfTask.font = UIFont.systemFont(ofSize: 20)
 		textOfTask.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
 		textOfTask.backgroundColor = #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1)

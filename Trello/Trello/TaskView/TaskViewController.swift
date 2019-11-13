@@ -10,7 +10,8 @@ import UIKit
 
 class TaskViewController: UIViewController {
 	
-	public var textArray = ["First List", "Second List"]
+//	public var textArray = ["First List", "Second List"]
+	public var textArray: [String] = []
 	private var isDeleteActivate = false
 	private var indexToDelete = 0
 	

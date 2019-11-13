@@ -15,7 +15,8 @@ class TaskView: UIView {
 	var layout = UICollectionViewFlowLayout()
 	var navigationBar: UINavigationBar!
 	
-	var tasks: [String] = ["Task1", "Task2"]
+//	var tasks: [String] = ["Task1", "Task2"]
+	var tasks: [String] = []
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
