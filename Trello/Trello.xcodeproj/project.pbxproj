@@ -27,6 +27,7 @@
 		A79E24CA237A01DA00B5F12E /* TaskListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E24C5237A01DA00B5F12E /* TaskListCell.swift */; };
 		A79E24CB237A01DA00B5F12E /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E24C6237A01DA00B5F12E /* TaskView.swift */; };
 		A79E24CC237A01DA00B5F12E /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E24C7237A01DA00B5F12E /* TaskViewController.swift */; };
+		A7CF63A5237D534C008A4357 /* TaskCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CF63A4237D534C008A4357 /* TaskCellDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		A79E24C5237A01DA00B5F12E /* TaskListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskListCell.swift; sourceTree = "<group>"; };
 		A79E24C6237A01DA00B5F12E /* TaskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		A79E24C7237A01DA00B5F12E /* TaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
+		A7CF63A4237D534C008A4357 /* TaskCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 				A79E24C5237A01DA00B5F12E /* TaskListCell.swift */,
 				A79E24C6237A01DA00B5F12E /* TaskView.swift */,
 				A79E24C3237A01DA00B5F12E /* EachTaskCollectionViewCell.swift */,
+				A7CF63A4237D534C008A4357 /* TaskCellDelegate.swift */,
 			);
 			path = TaskView;
 			sourceTree = "<group>";
@@ -191,6 +194,7 @@
 				096524BB237804A70047D8D1 /* RootViewController.swift in Sources */,
 				A79E24CA237A01DA00B5F12E /* TaskListCell.swift in Sources */,
 				096524D5237805D60047D8D1 /* RegistrationViewController.swift in Sources */,
+				A7CF63A5237D534C008A4357 /* TaskCellDelegate.swift in Sources */,
 				096524B9237804A70047D8D1 /* AppDelegate.swift in Sources */,
 				096524D9237806060047D8D1 /* SignUpViewController.swift in Sources */,
 				096524CF2378053C0047D8D1 /* NoteViewController.swift in Sources */,

@@ -19,6 +19,10 @@ class TaskListCell: UICollectionViewCell {
 	
 	var label: UILabel!
 	
+	var taskInCellLabel = ""
+	
+	let taskCellDelegate = TaskCellDelegate()
+	
 //	public var taskView: TaskView!
 		
 		
@@ -42,7 +46,15 @@ class TaskListCell: UICollectionViewCell {
 		required init?(coder: NSCoder) {
 			fatalError("init(coder:) has not been implemented")
 		}
-	
+}
+
+extension TaskListCell {
+	override func prepareForReuse() {
+//		self.taskInCellLabel = ""
+		
+		self.taskCellDelegate.labelOfList = ""
+		self.taskCellDelegate.tasks = []
+	}
 }
 
 extension TaskListCell {
@@ -66,10 +78,11 @@ extension TaskListCell {
 			collectionViewForTasks.backgroundColor = #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1)
 			collectionViewForTasks.register(EachTaskCollectionViewCell.self, forCellWithReuseIdentifier: "TaskCell")
 			
-			collectionViewForTasks.delegate = self
-			collectionViewForTasks.dataSource = self
+			collectionViewForTasks.delegate = taskCellDelegate //self
+			collectionViewForTasks.dataSource = taskCellDelegate //self
+//			taskCellDelegate.collectionView = collectionViewForTasks
 			
-			self.addSubview(collectionViewForTasks)
+			self.contentView.addSubview(collectionViewForTasks)
 		}
 		
 		func setupNavigationBar(withFrame frame: CGRect) {
@@ -77,7 +90,7 @@ extension TaskListCell {
 			navigationBar.backgroundColor = UIColor.white
 			
 			let navigationItem = UINavigationItem()
-			navigationItem.title = "Title"
+//			navigationItem.title = ""
 			
 			let rightButton =  UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addButtonClicked))
 	//		let leftButton = UIBarButtonItem(title: "Delete", style: .done, target: self, action: #selector(deleteButtonClicked))
@@ -85,7 +98,7 @@ extension TaskListCell {
 	//		navigationItem.leftBarButtonItem = leftButton
 			
 			navigationBar.items = [navigationItem]
-			self.addSubview(navigationBar)
+			self.contentView.addSubview(navigationBar)
 		}
 	
 	@objc
@@ -103,6 +116,17 @@ extension TaskListCell {
 			guard !textField.text!.isEmpty else { return }
 			
 			self.tasks.append(textField.text!)
+//			self.taskCellDelegate.tasks = self.tasks
+			
+//			UserDefaults.standard.set(self.tasks, forKey: "Tasks")
+			
+			print(AppDelegate.shared.array)
+			let title : String = (self.navigationBar.items?[0].title!)!
+//			self.taskCellDelegate.labelOfList = title
+			
+			AppDelegate.shared.array[title]?.append(textField.text!)
+//			let array = AppDelegate.shared.array[title]
+			
 			self.collectionViewForTasks.reloadData()
 		}
 		
@@ -115,22 +139,23 @@ extension TaskListCell {
 
 //MARK: - UICollectionViewDataSource and Delegate
 
-extension TaskListCell: UICollectionViewDataSource {
-	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return tasks.count
-	}
-	
-	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EachTaskCollectionViewCell.reuseId, for: indexPath) as! EachTaskCollectionViewCell
-
-//		cell.backgroundColor = .white
-		cell.label.textColor = .black
-		cell.label.text = tasks[indexPath.row]
-		return cell
-	}
-}
-
-//MARK: - UICollectionViewDelegate
-extension TaskListCell: UICollectionViewDelegate {
-	
-}
+//extension TaskListCell: UICollectionViewDataSource {
+//	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//		return tasks.count
+//	}
+//	
+//	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EachTaskCollectionViewCell.reuseId, for: indexPath) as! EachTaskCollectionViewCell
+//
+////		cell.backgroundColor = .white
+//		cell.label.textColor = .black
+//		taskInCellLabel = tasks[indexPath.row]
+//		cell.label.text = taskInCellLabel
+//		return cell
+//	}
+//}
+//
+////MARK: - UICollectionViewDelegate
+//extension TaskListCell: UICollectionViewDelegate {
+//	
+//}
