@@ -37,7 +37,7 @@ class TaskViewController: UIViewController {
 		
 		view.backgroundColor = .red
 		
-		//MARK: - CollectiuonView
+		//MARK: CollectiuonView
 		
 		layout.itemSize = CGSize(width: 300, height: 500)
 		layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
@@ -171,6 +171,7 @@ extension TaskViewController: UICollectionViewDataSource {
 		let title = Array(AppDelegate.shared.array.keys).sorted()
 		cell.navigationBar.items?[0].title = title[indexPath.row]
 		cell.taskCellDelegate.labelOfList = title[indexPath.row]
+		cell.taskCellDelegate.tasks = []
 		
 		return cell
 	}

@@ -30,7 +30,7 @@ class TaskListCell: UICollectionViewCell {
 			super.init(frame: frame)
 			self.backgroundColor = #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1)
 			self.layer.cornerRadius = 20
-//			self.backgroundColor = 
+			self.layer.masksToBounds = true
 			
 //			taskView = TaskView(frame: contentView.frame)
 //			taskView.center = contentView.center
