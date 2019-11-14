@@ -10,7 +10,7 @@ import UIKit
 
 class TaskViewController: UIViewController {
 	
-	public var textArray = ["First List", "Second List"]
+	public var textArray = ["First List", "Second List", "third", "fourth", "sisth", "seventh"]
 	private var isDeleteActivate = false
 	private var indexToDelete = 0
 	
@@ -149,7 +149,9 @@ extension TaskViewController: UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskListCell.reuseId, for: indexPath) as! TaskListCell
 		
-		cell.taskView.navigationBar.items![0].title = textArray[indexPath.row]
+//		cell.taskView.navigationBar.items![0].title = textArray[indexPath.row]
+//		cell.label.text = textArray[indexPath.row]
+		cell.navigationBar.items?[0].title = textArray[indexPath.row]
 		return cell
 	}
 	
