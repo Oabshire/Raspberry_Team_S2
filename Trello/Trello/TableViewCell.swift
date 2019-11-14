@@ -15,6 +15,7 @@ class TableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
+		noteLabel.numberOfLines = 0
         noteLabel.frame = self.contentView.frame
         noteLabel.center = self.contentView.center
         contentView.addSubview(noteLabel)

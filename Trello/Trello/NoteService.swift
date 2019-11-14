@@ -14,5 +14,6 @@ class NoteService {
         
         return instance
     }()
-    public var notes: [String] = []
+	public var notes: [String] = []
+    public var isEdit: Bool = false
 }
