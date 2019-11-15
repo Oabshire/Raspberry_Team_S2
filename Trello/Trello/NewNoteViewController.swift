@@ -22,6 +22,7 @@ class NewNoteViewController: UIViewController {
         view.backgroundColor = .cyan
         textField.frame = view.frame
         textField.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+		textField.font = UIFont.systemFont(ofSize: 20)
         view.addSubview(textField)
         
         let saveBarItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveNote))
