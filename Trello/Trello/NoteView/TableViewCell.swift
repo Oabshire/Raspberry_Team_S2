@@ -42,7 +42,8 @@ class TableViewCell: UITableViewCell {
 		
 		noteImage.topAnchor.constraint(equalTo:contentView.topAnchor, constant: 1).isActive  = true
 		noteImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-		noteImage.heightAnchor.constraint(equalToConstant: 100).isActive = true
+		noteImage.heightAnchor.constraint(equalToConstant: 200).isActive = true
+		noteImage.widthAnchor.constraint(equalTo: noteImage.heightAnchor, constant: 0.0).isActive = true
 		
 		noteLabel.topAnchor.constraint(equalTo: noteImage.bottomAnchor, constant:  10).isActive = true
 		noteLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 2).isActive = true

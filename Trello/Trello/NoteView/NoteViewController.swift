@@ -71,7 +71,7 @@ extension NoteViewController: UITableViewDataSource {
 		let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.reuseId, for: indexPath) as! TableViewCell
         
         let image = UIImage(data:noteService.notes[indexPath.row].image!)
-        cell.imageView?.image = image
+        cell.noteImage.image = image
         let note = noteService.notes[indexPath.row].text
 		
 		let heightOfText = note.heightWithConstrainedWidth(width: cell.contentView.frame.size.width, font: .systemFont(ofSize: 20))
