@@ -86,6 +86,7 @@ extension TaskListCell {
 		navigationBar.backgroundColor = UIColor.white
 		
 		let navigationItem = UINavigationItem()
+		//			navigationItem.title = ""
 		
 		let rightButton =  UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addButtonClicked))
 		//		let leftButton = UIBarButtonItem(title: "Delete", style: .done, target: self, action: #selector(deleteButtonClicked))

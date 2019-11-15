@@ -17,6 +17,7 @@ class TaskViewController: UIViewController {
 	let userSettings = UserDefaults.standard
 	
 	let layout = UICollectionViewFlowLayout()
+//	var collectionView: TaskListsCollectionView!
 	var collectionView: UICollectionView!
 	
 	init() {
@@ -69,12 +70,11 @@ class TaskViewController: UIViewController {
 		navigationController?.viewControllers[0].navigationItem.rightBarButtonItem = addButton
 		
 		//////////
-		//@fix
-		navigationController?.viewControllers[0].title = "Задачи"
-		
-//		self.navigationController?.title = "Задачи" - не выводит на экран
+		//#fix
+	//	navigationController?.viewControllers[0].title = "Задачи"
+		self.navigationController?.title = "Задачи "
 		/////////
-//
+		
 		
 		navigationController?.setNavigationBarHidden(false, animated: true)
 	}
