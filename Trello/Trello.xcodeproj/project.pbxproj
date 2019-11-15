@@ -25,6 +25,9 @@
 		A79E24C8237A01DA00B5F12E /* EachTaskCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E24C3237A01DA00B5F12E /* EachTaskCollectionViewCell.swift */; };
 		A79E24CA237A01DA00B5F12E /* TaskListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E24C5237A01DA00B5F12E /* TaskListCell.swift */; };
 		A79E24CC237A01DA00B5F12E /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E24C7237A01DA00B5F12E /* TaskViewController.swift */; };
+		A7D924C9237F26190034ABAB /* ImagePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D924C7237F26190034ABAB /* ImagePickerTableViewCell.swift */; };
+		A7D924CA237F26190034ABAB /* TextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D924C8237F26190034ABAB /* TextFieldTableViewCell.swift */; };
+		A7D924CC237F26210034ABAB /* NoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D924CB237F26210034ABAB /* NoteModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +51,9 @@
 		A79E24C3237A01DA00B5F12E /* EachTaskCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EachTaskCollectionViewCell.swift; sourceTree = "<group>"; };
 		A79E24C5237A01DA00B5F12E /* TaskListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskListCell.swift; sourceTree = "<group>"; };
 		A79E24C7237A01DA00B5F12E /* TaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
+		A7D924C7237F26190034ABAB /* ImagePickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerTableViewCell.swift; sourceTree = "<group>"; };
+		A7D924C8237F26190034ABAB /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldTableViewCell.swift; sourceTree = "<group>"; };
+		A7D924CB237F26210034ABAB /* NoteModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,11 +89,8 @@
 				096524B8237804A70047D8D1 /* AppDelegate.swift */,
 				096524BA237804A70047D8D1 /* RootViewController.swift */,
 				096524CA237804FB0047D8D1 /* StartViewController.swift */,
-				096524CE2378053C0047D8D1 /* NoteViewController.swift */,
-				096524D0237805700047D8D1 /* NewNoteViewController.swift */,
-				369D8B082378C18300CF4708 /* TableViewCell.swift */,
+				A7D924C6237F25F40034ABAB /* NoteView */,
 				A7C3CFC02379E64B000FEAC8 /* TaskView */,
-				36419F1A2379DB3400E95AE5 /* NoteService.swift */,
 				096524D2237805B30047D8D1 /* SettingViewController.swift */,
 				096524D4237805D60047D8D1 /* RegistrationViewController.swift */,
 				096524D6237805F10047D8D1 /* SignInViewController.swift */,
@@ -109,6 +112,20 @@
 				A79E24C3237A01DA00B5F12E /* EachTaskCollectionViewCell.swift */,
 			);
 			path = TaskView;
+			sourceTree = "<group>";
+		};
+		A7D924C6237F25F40034ABAB /* NoteView */ = {
+			isa = PBXGroup;
+			children = (
+				096524CE2378053C0047D8D1 /* NoteViewController.swift */,
+				096524D0237805700047D8D1 /* NewNoteViewController.swift */,
+				369D8B082378C18300CF4708 /* TableViewCell.swift */,
+				A7D924C7237F26190034ABAB /* ImagePickerTableViewCell.swift */,
+				A7D924C8237F26190034ABAB /* TextFieldTableViewCell.swift */,
+				36419F1A2379DB3400E95AE5 /* NoteService.swift */,
+				A7D924CB237F26210034ABAB /* NoteModel.swift */,
+			);
+			path = NoteView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -182,6 +199,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7D924CA237F26190034ABAB /* TextFieldTableViewCell.swift in Sources */,
+				A7D924CC237F26210034ABAB /* NoteModel.swift in Sources */,
 				096524BB237804A70047D8D1 /* RootViewController.swift in Sources */,
 				A79E24CA237A01DA00B5F12E /* TaskListCell.swift in Sources */,
 				096524D5237805D60047D8D1 /* RegistrationViewController.swift in Sources */,
@@ -195,6 +214,7 @@
 				369D8B092378C18300CF4708 /* TableViewCell.swift in Sources */,
 				096524D3237805B30047D8D1 /* SettingViewController.swift in Sources */,
 				A79E24CC237A01DA00B5F12E /* TaskViewController.swift in Sources */,
+				A7D924C9237F26190034ABAB /* ImagePickerTableViewCell.swift in Sources */,
 				096524D1237805700047D8D1 /* NewNoteViewController.swift in Sources */,
 				36419F1B2379DB3400E95AE5 /* NoteService.swift in Sources */,
 			);

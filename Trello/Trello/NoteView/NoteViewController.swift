@@ -12,16 +12,16 @@ import UIKit
 class NoteViewController: UIViewController {
 	
 	let noteService = NoteService.shared
-	
-	public static var notesCount = 0
-	public let tableView = UITableView()
-	var dictOfHeight = [IndexPath : CGFloat]()
-	var dictOfDefHeight = [IndexPath : CGFloat]()
-	var firstTap = true
+    
+    public static var notesCount = 0
+    public let tableView = UITableView()
+    var dictOfHeight = [IndexPath : CGFloat]()
+    var dictOfDefHeight = [IndexPath : CGFloat]()
+    var firstTap = true
 	
 	init() {
 		super.init(nibName: nil, bundle: nil)
-//		self.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
+		//		self.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
 		self.tabBarItem = UITabBarItem(title: "Заметки", image: UIImage(named: "Note"), tag: 0)
 	}
 	
@@ -46,7 +46,7 @@ class NoteViewController: UIViewController {
 		view.addSubview(tableView)
 		
 		tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.reuseId)
-//		self.tableView.rowHeight = UITableView.automaticDimension
+		//		self.tableView.rowHeight = UITableView.automaticDimension
 	}
 	
 	
@@ -69,8 +69,10 @@ class NoteViewController: UIViewController {
 extension NoteViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.reuseId, for: indexPath) as! TableViewCell
-
-		let note = noteService.notes[indexPath.row]
+        
+        let image = UIImage(data:noteService.notes[indexPath.row].image!)
+        cell.imageView?.image = image
+        let note = noteService.notes[indexPath.row].text
 		
 		let heightOfText = note.heightWithConstrainedWidth(width: cell.contentView.frame.size.width, font: .systemFont(ofSize: 20))
 		print("sizeOfText ", heightOfText)
@@ -119,22 +121,23 @@ extension NoteViewController: UITableViewDataSource {
 extension NoteViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let newNoteVC = NewNoteViewController()
-		let newNote = noteService.notes[indexPath.row]
-		newNoteVC.textField.text = newNote
-		newNoteVC.tеmpIndex = indexPath.row
-		noteService.isEdit = true
-		navigationController?.pushViewController(newNoteVC, animated: true)
-	}
+			let newNote = noteService.notes[indexPath.row]
+			newNoteVC.textFieldVC.textField.text = newNote.text
+			newNoteVC.imagePickerVC.imageView!.image = UIImage(data: newNote.image!)
+			newNoteVC.tempIndex = indexPath.row
+			noteService.isEdit = true
+			navigationController?.pushViewController(newNoteVC, animated: true)
+		}
 	
-//	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//		return UITableView.automaticDimension
-//	}
+	//	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+	//		return UITableView.automaticDimension
+	//	}
 }
 
 extension String {
-    func heightWithConstrainedWidth(width: CGFloat, font: UIFont) -> CGFloat {
-        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+	func heightWithConstrainedWidth(width: CGFloat, font: UIFont) -> CGFloat {
+		let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
 		let boundingBox = self.boundingRect(with: constraintRect, options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [NSAttributedString.Key.font: font], context: nil)
-        return boundingBox.height
-    }
+		return boundingBox.height
+	}
 }

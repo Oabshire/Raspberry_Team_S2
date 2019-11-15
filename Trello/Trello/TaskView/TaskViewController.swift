@@ -23,7 +23,7 @@ class TaskViewController: UIViewController {
 	init() {
 		super.init(nibName: nil, bundle: nil)
 		self.tabBarItem = UITabBarItem(title: "Задачи", image: UIImage(named: "Task"), tag: 0)
-		//		self.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 0)
+//				self.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 0)
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -71,8 +71,8 @@ class TaskViewController: UIViewController {
 		
 		//////////
 		//#fix
-	//	navigationController?.viewControllers[0].title = "Задачи"
-		self.navigationController?.title = "Задачи "
+		navigationController?.viewControllers[0].title = "Задачи"
+//		self.navigationController?.title = "Задачи "
 		/////////
 		
 		
