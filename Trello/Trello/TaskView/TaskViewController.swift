@@ -45,7 +45,6 @@ class TaskViewController: UIViewController {
 		layout.minimumInteritemSpacing = 20
 		layout.scrollDirection = .horizontal
 		
-//		collectionView = TaskListsCollectionView(frame: view.frame, collectionViewLayout: layout)
 		collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
 		
 		collectionView.backgroundColor = #colorLiteral(red: 1, green: 0.7164984345, blue: 0.8314651847, alpha: 1)
@@ -54,15 +53,11 @@ class TaskViewController: UIViewController {
 		collectionView.delegate = self
 		collectionView.dataSource = self
 		
-		//		collectionView.dragDelegate = self
-		//		collectionView.dropDelegate = self
-		
 		collectionView.layer.borderWidth = 1
 		collectionView.layer.borderColor = UIColor.lightGray.cgColor
 		
 		let longPress = UILongPressGestureRecognizer(target: self, action: nil)
 		collectionView.addGestureRecognizer(longPress)
-		
 		
 		view.addSubview(collectionView)
 	}
@@ -74,37 +69,14 @@ class TaskViewController: UIViewController {
 		let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTaskList))
 		navigationController?.viewControllers[0].navigationItem.rightBarButtonItem = addButton
 		
-		//		let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editMe))
-		//		navigationController?.viewControllers[0].navigationItem.leftBarButtonItem = editButton
+		//////////
+		//#fix
+	//	navigationController?.viewControllers[0].title = "Задачи"
+		self.navigationController?.title = "Задачи "
+		/////////
 		
-		navigationController?.viewControllers[0].title = "Задачи"
+		
 		navigationController?.setNavigationBarHidden(false, animated: true)
-	}
-	
-	@objc
-	func editMe() {
-		
-		//		isDeleteActivate = true
-		//
-		//
-		//		let itemIndex = collectionView.indexPathsForSelectedItems
-		//		if let index = itemIndex?.first?.row {
-		//			remove(indexToDelete)
-		//		}
-	}
-	
-	func remove(_ i: Int) {
-		
-		textArray.remove(at: i)
-		
-		let indexPath = IndexPath(row: i, section: 0)
-		
-		
-		self.collectionView.performBatchUpdates({
-			self.collectionView.deleteItems(at: [indexPath])
-		}) { (finished) in
-			self.collectionView.reloadItems(at: self.collectionView.indexPathsForVisibleItems)
-		}
 	}
 	
 	@objc
@@ -115,19 +87,17 @@ class TaskViewController: UIViewController {
 		
 		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
 		
-		let okAction = UIAlertAction(title: "OK", style: .default){
+		let okAction = UIAlertAction(title: "OK", style: .default) {
 			_ in
 			
+			// @fix
 			let textField = addTaskAllert.textFields![0] as UITextField
-			guard !textField.text!.isEmpty else { return }
-			
-			if AppDelegate.shared.array[textField.text!] == nil {
-				AppDelegate.shared.array[textField.text!] = []
+			if let text = textField.text {
+				AppDelegate.shared.array.append(Column(name: text))
+			} else {
+				return
 			}
 			
-			print(AppDelegate.shared.array)
-			
-			self.textArray.append(textField.text!)
 			self.collectionView.reloadData()
 		}
 		
@@ -137,41 +107,26 @@ class TaskViewController: UIViewController {
 		present(addTaskAllert, animated: true, completion: nil)
 	}
 	
-	
-	//	@objc
-	//	func activateDeletingMode(_ recognizer: UILongPressGestureRecognizer) {
-	//		if recognizer.state == UIGestureRecognizer.State.began, (isDeleteActivate) {
-	//			let indexPath = collectionView.indexPathForItem(at: recognizer.location(in: collectionView))
-	//			let cell = collectionView.cellForItem(at: indexPath!)
-	//			indexToDelete = indexPath!.row
-	//			let deleteButton = UIButton(type: .system)
-	//			deleteButton.addTarget(self, action: #selector(editMe), for: .touchUpInside)
-	//			deleteButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
-	//				cell?.addSubview(deleteButton)
-	//
-	//		}
-	//	}
-	
 }
 
 //MARK: - UICollectionViewDataSource and UICollectionViewDelegate
 
 extension TaskViewController: UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return AppDelegate.shared.array.count //textArray.count
+		return AppDelegate.shared.array.count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskListCell.reuseId, for: indexPath) as! TaskListCell
 		
-		//		cell.taskView.navigationBar.items![0].title = textArray[indexPath.row]
-		//		cell.label.text = textArray[indexPath.row]
-		//		cell.navigationBar.items?[0].title = textArray[indexPath.row]
+		let currentColumn = AppDelegate.shared.array[indexPath.item]
 		
-		let title = Array(AppDelegate.shared.array.keys).sorted()
-		cell.navigationBar.items?[0].title = title[indexPath.row]
-		cell.taskCellDelegate.labelOfList = title[indexPath.row]
-		cell.taskCellDelegate.tasks = []
+		cell.data = currentColumn
+
+		
+		let title = currentColumn.name
+		cell.navigationBar.items?[0].title = title
+		
 		
 		return cell
 	}

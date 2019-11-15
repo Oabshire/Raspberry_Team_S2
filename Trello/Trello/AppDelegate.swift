@@ -9,13 +9,25 @@
 
 import UIKit
 
+// @fix
+class Column {
+	var name: String
+	var rows = [String]()
+	
+	init(name: String) {
+		self.name = name
+	}
+}
+
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     static let defaults = UserDefaults.standard
 	
-	var array: [String : [String]] = [:]
+	// @fix
+	var array = [Column]()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
