@@ -27,8 +27,7 @@ class TableViewCell: UITableViewCell {
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: .default, reuseIdentifier: reuseIdentifier)
 		noteLabel.numberOfLines = 0
-		//        noteLabel.frame = self.contentView.frame
-		//        noteLabel.center = self.contentView.center
+		
 		noteLabel.font = UIFont.systemFont(ofSize: 20)
 		contentView.addSubview(noteLabel)
 		
@@ -69,8 +68,6 @@ class TableViewCell: UITableViewCell {
 	
 	override func setSelected(_ selected: Bool, animated: Bool) {
 		super.setSelected(selected, animated: animated)
-		
-		// Configure the view for the selected state
 	}
 	
 	

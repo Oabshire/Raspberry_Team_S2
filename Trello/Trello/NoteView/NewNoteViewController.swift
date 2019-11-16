@@ -21,8 +21,6 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 	let imagePickerVC = ImagePickerTableViewCell()
 	let textFieldVC = TextFieldTableViewCell()
 	
-	//    let textField = UITextView()
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -50,10 +48,6 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
         navigationController?.viewControllers[1].navigationItem.rightBarButtonItem = saveBarItem
 	}
 	
-	//	override func viewWillAppear(_ animated: Bool) {
-	//		textField.becomeFirstResponder()
-	//	}
-	
 	@objc
 	func saveNote(){
 		if noteService.isEdit {
@@ -77,8 +71,6 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 		if indexPath.row == 0 {
 			let cameraIcon = UIImage(named: "image")
 			let photoIcon = UIImage(named: "image")
-//			let cameraIcon = #imageLiteral(resourceName: <#T##String#>)
-//			let photoIcon = #imageLiteral(resourceName: <#T##String#>)
 			
 			let actionSheet = UIAlertController(title: nil,
 												message: nil,
@@ -134,6 +126,11 @@ extension NewNoteViewController : UIImagePickerControllerDelegate, UINavigationC
 			imagePicker.allowsEditing = true
 			imagePicker.sourceType = source
 			present(imagePicker, animated:true, completion: nil)
+		}
+		else {
+			let alert  = UIAlertController(title: "Ошибка!", message: "Ваше устройство не поддерживает работу с камерой!", preferredStyle: .alert)
+			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+			self.present(alert, animated: true, completion: nil)
 		}
 	}
 	

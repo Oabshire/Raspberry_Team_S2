@@ -12,12 +12,12 @@ import UIKit
 class NoteViewController: UIViewController {
 	
 	let noteService = NoteService.shared
-    
-    public static var notesCount = 0
-    public let tableView = UITableView()
-    var dictOfHeight = [IndexPath : CGFloat]()
-    var dictOfDefHeight = [IndexPath : CGFloat]()
-    var firstTap = true
+	
+	public static var notesCount = 0
+	public let tableView = UITableView()
+	var dictOfHeight = [IndexPath : CGFloat]()
+	var dictOfDefHeight = [IndexPath : CGFloat]()
+	var firstTap = true
 	
 	init() {
 		super.init(nibName: nil, bundle: nil)
@@ -35,6 +35,9 @@ class NoteViewController: UIViewController {
 		let barItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(itemPressed))
 		navigationController?.viewControllers[0].navigationItem.rightBarButtonItem = barItem
 		
+		let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditing))
+		navigationController?.viewControllers[0].navigationItem.leftBarButtonItem = editButton
+		
 		navigationController?.viewControllers[0].title = "Заметки (\(noteService.notes.count))"
 		view.backgroundColor = .green
 		
@@ -46,7 +49,6 @@ class NoteViewController: UIViewController {
 		view.addSubview(tableView)
 		
 		tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.reuseId)
-		//		self.tableView.rowHeight = UITableView.automaticDimension
 	}
 	
 	
@@ -64,18 +66,23 @@ class NoteViewController: UIViewController {
 		navigationController?.pushViewController(newNoteVC, animated: true)
 		
 	}
+	
+	@objc private func toggleEditing() {
+		tableView.setEditing(!tableView.isEditing, animated: true)
+		navigationItem.leftBarButtonItem?.title = tableView.isEditing ? "Done" : "Edit"
+	}
 }
 
 extension NoteViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.reuseId, for: indexPath) as! TableViewCell
-        
-        let image = UIImage(data:noteService.notes[indexPath.row].image!)
-        cell.noteImage.image = image
-        let note = noteService.notes[indexPath.row].text
+		
+		let image = (UIImage(data:noteService.notes[indexPath.row].image!))!
+		print("image ", image)
+		cell.noteImage.image = image
+		let note = noteService.notes[indexPath.row].text
 		
 		let heightOfText = note.heightWithConstrainedWidth(width: cell.contentView.frame.size.width, font: .systemFont(ofSize: 20))
-		print("sizeOfText ", heightOfText)
 		
 		cell.noteLabel.text = note
 		let height = heightOfText < 100 ? heightOfText : 100
@@ -121,17 +128,31 @@ extension NoteViewController: UITableViewDataSource {
 extension NoteViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let newNoteVC = NewNoteViewController()
-			let newNote = noteService.notes[indexPath.row]
-			newNoteVC.textFieldVC.textField.text = newNote.text
-			newNoteVC.imagePickerVC.imageView!.image = UIImage(data: newNote.image!)
-			newNoteVC.tempIndex = indexPath.row
-			noteService.isEdit = true
-			navigationController?.pushViewController(newNoteVC, animated: true)
-		}
+		let newNote = noteService.notes[indexPath.row]
+		newNoteVC.textFieldVC.textField.text = newNote.text
+		newNoteVC.imagePickerVC.imageView!.image = UIImage(data: newNote.image!)
+		newNoteVC.tempIndex = indexPath.row
+		noteService.isEdit = true
+		navigationController?.pushViewController(newNoteVC, animated: true)
+	}
 	
-	//	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-	//		return UITableView.automaticDimension
-	//	}
+	func tableView(_ tableView: UITableView, canEditAtRow indexPath: IndexPath) -> Bool {
+		return true
+	}
+	
+	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+		if editingStyle == .delete {
+			print("noteService.notes: ", noteService.notes)
+			noteService.notes.remove(at: indexPath.row)
+			print("noteService.notes: ", noteService.notes)
+			navigationController?.viewControllers[0].title = "Заметки (\(noteService.notes.count))"
+			tableView.reloadData()
+		}
+	}
+	
+	func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+		return UITableViewCell.EditingStyle.delete
+	}
 }
 
 extension String {

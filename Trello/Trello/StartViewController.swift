@@ -9,6 +9,8 @@
 import UIKit
 
 class StartViewController: UIViewController {
+	
+	let loadView = DiamondLoad()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +22,17 @@ class StartViewController: UIViewController {
         
         startButton.center = CGPoint(x: view.center.x, y: view.center.y + 50)
         view.addSubview(startButton)
+//		почему-то при добавлении анимации кнопка становится неактивной (
+//		UIView.animate(withDuration: 2.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3, options: [.curveEaseInOut, .repeat, .autoreverse], animations: {
+//			self.startButton.transform = CGAffineTransform.identity.scaledBy(x: 1.5, y: 1.5)
+//		}, completion: nil)
+		
+		
+		loadView.dotsColor = .cyan
+		loadView.frame.size = CGSize(width: 70, height: 70)
+		loadView.center = CGPoint(x: view.center.x, y: view.center.y + 150)
+		view.addSubview(loadView)
+		
     }
     
     var helloLabel: UILabel = {
@@ -42,14 +55,27 @@ class StartViewController: UIViewController {
     
     @objc
     func start(){
-        if AppDelegate.defaults.bool(forKey: "loggedIn") {
-            AppDelegate.shared.rootViewController.switchToMainScreen()
-        } else {
-            AppDelegate.shared.rootViewController.switchToLogout()
-        }
+		
+		UIView.animate(withDuration: 2, delay: 0, options: [], animations: {
+			self.startButton.layer.opacity = 0
+			self.helloLabel.layer.opacity = 0
+		}, completion: {
+			_ in
+			if AppDelegate.defaults.bool(forKey: "loggedIn"){
+				AppDelegate.shared.rootViewController.switchToMainScreen()
+			} else {
+				AppDelegate.shared.rootViewController.switchToLogout()
+			}
+		})
+//        if AppDelegate.defaults.bool(forKey: "loggedIn") {
+//            AppDelegate.shared.rootViewController.switchToMainScreen()
+//        } else {
+//            AppDelegate.shared.rootViewController.switchToLogout()
+//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
+		loadView.startAnimating()
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
 }
