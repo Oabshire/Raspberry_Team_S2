@@ -23,6 +23,8 @@
 		36419F1B2379DB3400E95AE5 /* NoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36419F1A2379DB3400E95AE5 /* NoteService.swift */; };
 		369D8B092378C18300CF4708 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369D8B082378C18300CF4708 /* TableViewCell.swift */; };
 		A7495DC52380672700B79F28 /* DiamondLoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7495DC42380672700B79F28 /* DiamondLoad.swift */; };
+		A7495DC723808D9900B79F28 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7495DC623808D9900B79F28 /* Net.swift */; };
+		A7495DC923808DA100B79F28 /* Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7495DC823808DA100B79F28 /* Authorization.swift */; };
 		A79E24C8237A01DA00B5F12E /* EachTaskCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E24C3237A01DA00B5F12E /* EachTaskCollectionViewCell.swift */; };
 		A79E24CA237A01DA00B5F12E /* TaskListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E24C5237A01DA00B5F12E /* TaskListCell.swift */; };
 		A79E24CC237A01DA00B5F12E /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E24C7237A01DA00B5F12E /* TaskViewController.swift */; };
@@ -50,6 +52,8 @@
 		36419F1A2379DB3400E95AE5 /* NoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteService.swift; sourceTree = "<group>"; };
 		369D8B082378C18300CF4708 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		A7495DC42380672700B79F28 /* DiamondLoad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiamondLoad.swift; sourceTree = "<group>"; };
+		A7495DC623808D9900B79F28 /* Net.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
+		A7495DC823808DA100B79F28 /* Authorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authorization.swift; sourceTree = "<group>"; };
 		A79E24C3237A01DA00B5F12E /* EachTaskCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EachTaskCollectionViewCell.swift; sourceTree = "<group>"; };
 		A79E24C5237A01DA00B5F12E /* TaskListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskListCell.swift; sourceTree = "<group>"; };
 		A79E24C7237A01DA00B5F12E /* TaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
@@ -92,6 +96,8 @@
 				096524BA237804A70047D8D1 /* RootViewController.swift */,
 				096524CA237804FB0047D8D1 /* StartViewController.swift */,
 				A7495DC42380672700B79F28 /* DiamondLoad.swift */,
+				A7495DC823808DA100B79F28 /* Authorization.swift */,
+				A7495DC623808D9900B79F28 /* Net.swift */,
 				A7D924C6237F25F40034ABAB /* NoteView */,
 				A7C3CFC02379E64B000FEAC8 /* TaskView */,
 				096524D2237805B30047D8D1 /* SettingViewController.swift */,
@@ -213,6 +219,8 @@
 				096524DB237806400047D8D1 /* BaseTabBarController.swift in Sources */,
 				A79E24C8237A01DA00B5F12E /* EachTaskCollectionViewCell.swift in Sources */,
 				096524D7237805F10047D8D1 /* SignInViewController.swift in Sources */,
+				A7495DC723808D9900B79F28 /* Net.swift in Sources */,
+				A7495DC923808DA100B79F28 /* Authorization.swift in Sources */,
 				096524CB237804FB0047D8D1 /* StartViewController.swift in Sources */,
 				369D8B092378C18300CF4708 /* TableViewCell.swift in Sources */,
 				096524D3237805B30047D8D1 /* SettingViewController.swift in Sources */,
