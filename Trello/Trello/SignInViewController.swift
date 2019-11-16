@@ -30,8 +30,17 @@ class SignInViewController: UIViewController {
     
     @objc
     func pushButton(){
-        AppDelegate.defaults.set(true, forKey: "loggedIn")
-        AppDelegate.shared.rootViewController.switchToMainScreen()
+		
+		modalPresentationStyle = .fullScreen
+		
+		if #available(iOS 13.0, *) {
+            present(Authorization(), animated: true, completion: nil)
+        } else {
+            // Fallback on earlier versions
+        }
+		
+//        AppDelegate.defaults.set(true, forKey: "loggedIn")
+//        AppDelegate.shared.rootViewController.switchToMainScreen()
     }
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: true)

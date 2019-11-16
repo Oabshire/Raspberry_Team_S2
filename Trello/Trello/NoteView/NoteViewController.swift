@@ -11,7 +11,14 @@ import UIKit
 
 class NoteViewController: UIViewController {
 	
-	let noteService = NoteService.shared
+	
+	let apiKey = "AIzaSyCHc17KIlD5V3QEnHIYJsn3VL4hSC5pGQY"
+	var memesLink: String {
+		return "https://troll-4d320.firebaseio.com/notes.json?avvrdd_token=\(apiKey))"
+	}
+	
+	var notesArray: [NoteFromBase] = []
+//	let noteService = NoteService.shared
 	
 	public static var notesCount = 0
 	public let tableView = UITableView()
@@ -38,7 +45,8 @@ class NoteViewController: UIViewController {
 		let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditing))
 		navigationController?.viewControllers[0].navigationItem.leftBarButtonItem = editButton
 		
-		navigationController?.viewControllers[0].title = "Заметки (\(noteService.notes.count))"
+//		navigationController?.viewControllers[0].title = "Заметки (\(noteService.notes.count))"
+		navigationController?.viewControllers[0].title = "Заметки (\(notesArray.count))"
 		view.backgroundColor = .green
 		
 		
@@ -52,11 +60,41 @@ class NoteViewController: UIViewController {
 	}
 	
 	
+//	override func viewWillAppear(_ animated: Bool) {
+//		navigationController?.setNavigationBarHidden(false, animated: true)
+//		navigationController?.viewControllers[0].title = "Заметки (\(noteService.notes.count))"
+//		tableView.reloadData()
+//	}
+	
 	override func viewWillAppear(_ animated: Bool) {
-		navigationController?.setNavigationBarHidden(false, animated: true)
-		navigationController?.viewControllers[0].title = "Заметки (\(noteService.notes.count))"
-		tableView.reloadData()
-	}
+        super.viewWillAppear(animated)
+        
+        
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+        
+        let url = URL(string: memesLink)!
+        let urlRequest = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 120)
+        
+        let task = session.dataTask(with: urlRequest, completionHandler: {(data, response, error) in
+            do {
+                let posts = try JSONDecoder().decode([String: NoteFromBase].self, from: data!)
+                self.notesArray = Array(posts.values)
+                print(posts)
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            } catch {
+                print(error)
+            }
+        })
+        task.resume()
+        
+        navigationController?.setNavigationBarHidden(false, animated: true)
+             navigationController?.viewControllers[0].title = "Заметки (\(notesArray.count))"
+        
+        tableView.reloadData()
+    }
 	
 	
 	@objc
@@ -77,12 +115,26 @@ extension NoteViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.reuseId, for: indexPath) as! TableViewCell
 		
-		let image = (UIImage(data:noteService.notes[indexPath.row].image!))!
-		print("image ", image)
-		cell.noteImage.image = image
-		let note = noteService.notes[indexPath.row].text
+//        let image = UIImage(data:noteService.notes[indexPath.row].image!)
+//        let note = noteService.notes[indexPath.row].text
+        
+        var image = UIImage()
+		
+		let url = URL(string:notesArray[indexPath.row].imageURL)!
+		
+		print(url)
+		
+		if let data = try? Data(contentsOf: url)
+        {
+            image = UIImage(data: data)!
+
+        }
+        cell.noteImage.image = image
+		
+		let note = notesArray[indexPath.row].text
 		
 		let heightOfText = note.heightWithConstrainedWidth(width: cell.contentView.frame.size.width, font: .systemFont(ofSize: 20))
+		print("sizeOfText ", heightOfText)
 		
 		cell.noteLabel.text = note
 		let height = heightOfText < 100 ? heightOfText : 100
@@ -98,7 +150,7 @@ extension NoteViewController: UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return noteService.notes.count
+		return notesArray.count //noteService.notes.count
 	}
 	
 	func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -128,12 +180,19 @@ extension NoteViewController: UITableViewDataSource {
 extension NoteViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let newNoteVC = NewNoteViewController()
-		let newNote = noteService.notes[indexPath.row]
-		newNoteVC.textFieldVC.textField.text = newNote.text
-		newNoteVC.imagePickerVC.imageView!.image = UIImage(data: newNote.image!)
-		newNoteVC.tempIndex = indexPath.row
-		noteService.isEdit = true
-		navigationController?.pushViewController(newNoteVC, animated: true)
+        let newNote = notesArray[indexPath.row]
+        newNoteVC.textFieldVC.textField.text = newNote.text
+        var image = UIImage()
+        let url = URL(string:notesArray[indexPath.row].imageURL)
+        if let data = try? Data(contentsOf: url!)
+        {
+            image = UIImage(data: data)!
+        }
+        newNoteVC.imagePickerVC.imageView!.image = image
+        newNoteVC.tempIndex = indexPath.row
+        //noteService.isEdit = true
+        navigationController?.pushViewController(newNoteVC, animated: true)
+		
 	}
 	
 	func tableView(_ tableView: UITableView, canEditAtRow indexPath: IndexPath) -> Bool {
@@ -142,10 +201,10 @@ extension NoteViewController: UITableViewDelegate {
 	
 	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
-			print("noteService.notes: ", noteService.notes)
-			noteService.notes.remove(at: indexPath.row)
-			print("noteService.notes: ", noteService.notes)
-			navigationController?.viewControllers[0].title = "Заметки (\(noteService.notes.count))"
+			notesArray.remove(at: indexPath.row)
+//			noteService.notes.remove(at: indexPath.row)
+//			print("noteService.notes: ", noteService.notes)
+			navigationController?.viewControllers[0].title = "Заметки (\(notesArray.count))"
 			tableView.reloadData()
 		}
 	}

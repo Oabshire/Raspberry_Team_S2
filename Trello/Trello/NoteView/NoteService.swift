@@ -8,6 +8,11 @@
 
 import Foundation
 
+struct NoteFromBase:Decodable{
+    var imageURL: String
+    let text: String
+}
+
 class NoteService {
     static var shared: NoteService = {
         let instance = NoteService()

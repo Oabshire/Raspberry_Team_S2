@@ -68,7 +68,7 @@ public class DiamondLoad: UIView {
 		}
 		createLayersIfNeeded()
 		setupInitialPlaces()
-		var dotsDelay = 0.1
+//		var dotsDelay = 0.1
 		switch style{
 		case .NoSpin:
 			dotsDelay = 0
@@ -118,7 +118,7 @@ public class DiamondLoad: UIView {
 	
 	private func setupInitialPlaces(){
 		for dot in dots{
-			dot.transform = CATransform3DMakeRotation(CGFloat(M_PI_4), 0, 0, 1.0)
+//			dot.transform = CATransform3DMakeRotation(CGFloat(M_PI_4), 0, 0, 1.0)
 		}
 		dots[0].position = CGPoint(x: localCenter.x, y: localCenter.y - dotSide - dotSmallestDistance)
 		dots[1].position = CGPoint(x: localCenter.x - dotSide - dotSmallestDistance, y: localCenter.y)

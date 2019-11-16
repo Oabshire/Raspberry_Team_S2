@@ -50,20 +50,20 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 	
 	@objc
 	func saveNote(){
-		if noteService.isEdit {
-            if let temp = textFieldVC.textField.text {
-                noteVC.noteService.notes[tempIndex].text = temp
-            }
-        } else {
-            if let temp = textFieldVC.textField.text {
-                let note = Note(text: temp, image: imagePickerVC.imagePicker.image?.pngData())
-                noteService.notes.append(note)
-            }
-        }
-		
-		
-		textFieldVC.textField.resignFirstResponder()
-		noteService.isEdit = false
+//		if noteService.isEdit {
+//            if let temp = textFieldVC.textField.text {
+//                noteVC.noteService.notes[tempIndex].text = temp
+//            }
+//        } else {
+//            if let temp = textFieldVC.textField.text {
+//                let note = Note(text: temp, image: imagePickerVC.imagePicker.image?.pngData())
+//                noteService.notes.append(note)
+//            }
+//        }
+//
+//
+//		textFieldVC.textField.resignFirstResponder()
+//		noteService.isEdit = false
 		navigationController?.popViewController(animated: true)
 	}
 	
