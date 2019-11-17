@@ -25,6 +25,7 @@
 		A7495DC52380672700B79F28 /* DiamondLoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7495DC42380672700B79F28 /* DiamondLoad.swift */; };
 		A7495DC723808D9900B79F28 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7495DC623808D9900B79F28 /* Net.swift */; };
 		A7495DC923808DA100B79F28 /* Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7495DC823808DA100B79F28 /* Authorization.swift */; };
+		A7495DCF23815BBC00B79F28 /* NetWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7495DCE23815BBC00B79F28 /* NetWork.swift */; };
 		A79E24C8237A01DA00B5F12E /* EachTaskCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E24C3237A01DA00B5F12E /* EachTaskCollectionViewCell.swift */; };
 		A79E24CA237A01DA00B5F12E /* TaskListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E24C5237A01DA00B5F12E /* TaskListCell.swift */; };
 		A79E24CC237A01DA00B5F12E /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E24C7237A01DA00B5F12E /* TaskViewController.swift */; };
@@ -54,6 +55,7 @@
 		A7495DC42380672700B79F28 /* DiamondLoad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiamondLoad.swift; sourceTree = "<group>"; };
 		A7495DC623808D9900B79F28 /* Net.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		A7495DC823808DA100B79F28 /* Authorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authorization.swift; sourceTree = "<group>"; };
+		A7495DCE23815BBC00B79F28 /* NetWork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetWork.swift; sourceTree = "<group>"; };
 		A79E24C3237A01DA00B5F12E /* EachTaskCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EachTaskCollectionViewCell.swift; sourceTree = "<group>"; };
 		A79E24C5237A01DA00B5F12E /* TaskListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskListCell.swift; sourceTree = "<group>"; };
 		A79E24C7237A01DA00B5F12E /* TaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				A7495DC42380672700B79F28 /* DiamondLoad.swift */,
 				A7495DC823808DA100B79F28 /* Authorization.swift */,
 				A7495DC623808D9900B79F28 /* Net.swift */,
+				A7495DCE23815BBC00B79F28 /* NetWork.swift */,
 				A7D924C6237F25F40034ABAB /* NoteView */,
 				A7C3CFC02379E64B000FEAC8 /* TaskView */,
 				096524D2237805B30047D8D1 /* SettingViewController.swift */,
@@ -210,6 +213,7 @@
 			files = (
 				A7D924CA237F26190034ABAB /* TextFieldTableViewCell.swift in Sources */,
 				A7D924CC237F26210034ABAB /* NoteModel.swift in Sources */,
+				A7495DCF23815BBC00B79F28 /* NetWork.swift in Sources */,
 				096524BB237804A70047D8D1 /* RootViewController.swift in Sources */,
 				A79E24CA237A01DA00B5F12E /* TaskListCell.swift in Sources */,
 				096524D5237805D60047D8D1 /* RegistrationViewController.swift in Sources */,

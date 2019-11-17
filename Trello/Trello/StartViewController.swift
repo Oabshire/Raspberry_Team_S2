@@ -27,7 +27,6 @@ class StartViewController: UIViewController {
 //			self.startButton.transform = CGAffineTransform.identity.scaledBy(x: 1.5, y: 1.5)
 //		}, completion: nil)
 		
-		
 		loadView.dotsColor = .cyan
 		loadView.frame.size = CGSize(width: 70, height: 70)
 		loadView.center = CGPoint(x: view.center.x, y: view.center.y + 150)

@@ -17,8 +17,14 @@ class NoteViewController: UIViewController {
 		return "https://troll-4d320.firebaseio.com/notes.json?avvrdd_token=\(apiKey))"
 	}
 	
-	var notesArray: [NoteFromBase] = []
+	var notesArray: [NoteFromBase] = [] {
+		didSet {
+			loadView.stopAnimating()
+		}
+	}
 //	let noteService = NoteService.shared
+	
+	let loadView = DiamondLoad()
 	
 	public static var notesCount = 0
 	public let tableView = UITableView()
@@ -57,6 +63,12 @@ class NoteViewController: UIViewController {
 		view.addSubview(tableView)
 		
 		tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.reuseId)
+		
+		loadView.dotsColor = .cyan
+		loadView.frame.size = CGSize(width: 70, height: 70)
+		loadView.center = view.center
+		loadView.startAnimating()
+		view.addSubview(loadView)
 	}
 	
 	
@@ -68,27 +80,35 @@ class NoteViewController: UIViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+		
+		downloadPosts{
+			notes in
+			DispatchQueue.main.async {
+				self.notesArray = notes
+				self.tableView.reloadData()
+			}
+		}
         
         
-        let config = URLSessionConfiguration.default
-        let session = URLSession(configuration: config)
-        
-        let url = URL(string: memesLink)!
-        let urlRequest = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 120)
-        
-        let task = session.dataTask(with: urlRequest, completionHandler: {(data, response, error) in
-            do {
-                let posts = try JSONDecoder().decode([String: NoteFromBase].self, from: data!)
-                self.notesArray = Array(posts.values)
-                print(posts)
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            } catch {
-                print(error)
-            }
-        })
-        task.resume()
+//        let config = URLSessionConfiguration.default
+//        let session = URLSession(configuration: config)
+//
+//        let url = URL(string: memesLink)!
+//        let urlRequest = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 120)
+//
+//        let task = session.dataTask(with: urlRequest, completionHandler: {(data, response, error) in
+//            do {
+//                let posts = try JSONDecoder().decode([String: NoteFromBase].self, from: data!)
+//                self.notesArray = Array(posts.values)
+//                print(posts)
+//                DispatchQueue.main.async {
+//                    self.tableView.reloadData()
+//                }
+//            } catch {
+//                print(error)
+//            }
+//        })
+//        task.resume()
         
         navigationController?.setNavigationBarHidden(false, animated: true)
              navigationController?.viewControllers[0].title = "Заметки (\(notesArray.count))"
