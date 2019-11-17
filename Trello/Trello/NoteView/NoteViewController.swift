@@ -52,7 +52,7 @@ class NoteViewController: UIViewController {
 		let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditing))
 		navigationController?.viewControllers[0].navigationItem.leftBarButtonItem = editButton
 		
-//		navigationController?.viewControllers[0].title = "Заметки (\(noteService.notes.count))"
+		//		navigationController?.viewControllers[0].title = "Заметки (\(noteService.notes.count))"
 		navigationController?.viewControllers[0].title = "Заметки (\(notesArray.count))"
 		view.backgroundColor = .green
 		
@@ -82,56 +82,59 @@ class NoteViewController: UIViewController {
 	}
 	
 	
-//	override func viewWillAppear(_ animated: Bool) {
-//		navigationController?.setNavigationBarHidden(false, animated: true)
-//		navigationController?.viewControllers[0].title = "Заметки (\(noteService.notes.count))"
-//		tableView.reloadData()
-//	}
+	//	override func viewWillAppear(_ animated: Bool) {
+	//		navigationController?.setNavigationBarHidden(false, animated: true)
+	//		navigationController?.viewControllers[0].title = "Заметки (\(noteService.notes.count))"
+	//		tableView.reloadData()
+	//	}
 	
 	func notesInDBFormNotesInBack(_ notesInBack: [NoteFromBase]) -> [Note] {
 		var notesInDB = [Note]()
 		for index in 0 ..< notesInBack.count {
 			let tempNoteInBack = notesInBack[index]
 			var image = UIImage()
-			let url = URL(string: tempNoteInBack.imageURL)
-			if let data = try? Data(contentsOf: url!)
-			{
-				image = UIImage(data: data)!
+			if let url = URL(string: tempNoteInBack.imageURL) {
+				
+				if let data = try? Data(contentsOf: url)
+				{
+					image = UIImage(data: data)!
+				}
 			}
-			let note = Note(text: tempNoteInBack.text, image: image)
-				notesInDB.append(note)
+			
+			let note = Note(text: tempNoteInBack.text, image: image, imageURL: tempNoteInBack.imageURL)
+			notesInDB.append(note)
 		}
 		return notesInDB
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+		super.viewWillAppear(animated)
 		
-//        let config = URLSessionConfiguration.default
-//        let session = URLSession(configuration: config)
-//
-//        let url = URL(string: memesLink)!
-//        let urlRequest = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 120)
-//
-//        let task = session.dataTask(with: urlRequest, completionHandler: {(data, response, error) in
-//            do {
-//                let posts = try JSONDecoder().decode([String: NoteFromBase].self, from: data!)
-//                self.notesArray = Array(posts.values)
-//                print(posts)
-//                DispatchQueue.main.async {
-//                    self.tableView.reloadData()
-//                }
-//            } catch {
-//                print(error)
-//            }
-//        })
-//        task.resume()
-        
-        navigationController?.setNavigationBarHidden(false, animated: true)
-             navigationController?.viewControllers[0].title = "Заметки (\(notesArray.count))"
-        
-        tableView.reloadData()
-    }
+		//        let config = URLSessionConfiguration.default
+		//        let session = URLSession(configuration: config)
+		//
+		//        let url = URL(string: memesLink)!
+		//        let urlRequest = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 120)
+		//
+		//        let task = session.dataTask(with: urlRequest, completionHandler: {(data, response, error) in
+		//            do {
+		//                let posts = try JSONDecoder().decode([String: NoteFromBase].self, from: data!)
+		//                self.notesArray = Array(posts.values)
+		//                print(posts)
+		//                DispatchQueue.main.async {
+		//                    self.tableView.reloadData()
+		//                }
+		//            } catch {
+		//                print(error)
+		//            }
+		//        })
+		//        task.resume()
+		
+		navigationController?.setNavigationBarHidden(false, animated: true)
+		navigationController?.viewControllers[0].title = "Заметки (\(notesArray.count))"
+		
+		tableView.reloadData()
+	}
 	
 	
 	@objc
@@ -157,30 +160,30 @@ extension NoteViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.reuseId, for: indexPath) as! TableViewCell
 		
-//        let image = UIImage(data:noteService.notes[indexPath.row].image!)
-//        let note = noteService.notes[indexPath.row].text
-        
+		//        let image = UIImage(data:noteService.notes[indexPath.row].image!)
+		//        let note = noteService.notes[indexPath.row].text
+		
 		let noteInDB: Note = NoteService.shared.notes[indexPath.row]
 		
-//        var image = UIImage()
-//
-//		let url = URL(string:notesArray[indexPath.row].imageURL)!
-//
-//		print(url)
-//
-//		if let data = try? Data(contentsOf: url)
-//        {
-//            image = UIImage(data: data)!
-//
-//        }
+		//        var image = UIImage()
+		//
+		//		let url = URL(string:notesArray[indexPath.row].imageURL)!
+		//
+		//		print(url)
+		//
+		//		if let data = try? Data(contentsOf: url)
+		//        {
+		//            image = UIImage(data: data)!
+		//
+		//        }
 		cell.noteImage.image = NoteService.shared.notes[indexPath.row].image
 		
-//		let note = notesArray[indexPath.row].text
+		//		let note = notesArray[indexPath.row].text
 		
 		let heightOfText = noteInDB.text.heightWithConstrainedWidth(width: cell.contentView.frame.size.width, font: .systemFont(ofSize: 20))
 		print("sizeOfText ", heightOfText)
 		
-//		cell.noteLabel.text = note
+		//		cell.noteLabel.text = note
 		cell.noteLabel.text = noteInDB.text
 		let height = heightOfText < 100 ? heightOfText : 100
 		cell.heightOfNote = height
@@ -223,20 +226,21 @@ extension NoteViewController: UITableViewDataSource {
 extension NoteViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let newNoteVC = NewNoteViewController()
-        let newNote = notesArray[indexPath.row]
-//        newNoteVC.textFieldVC.textField.text = newNote.text
+//		let newNote = notesArray[indexPath.row]
+		//        newNoteVC.textFieldVC.textField.text = newNote.text
 		newNoteVC.textFieldVC.textField.text = NoteService.shared.notes[indexPath.row].text
-        var image = UIImage()
-        let url = URL(string:notesArray[indexPath.row].imageURL)
-        if let data = try? Data(contentsOf: url!)
-        {
-            image = UIImage(data: data)!
-        }
-//        newNoteVC.imagePickerVC.imageView!.image = image
+//		var image = UIImage()
+//		let url = URL(string:notesArray[indexPath.row].imageURL)
+//		if let data = try? Data(contentsOf: url!)
+//		{
+//			image = UIImage(data: data)!
+//		}
+		//        newNoteVC.imagePickerVC.imageView!.image = image
 		newNoteVC.imagePickerVC.imageView!.image = NoteService.shared.notes[indexPath.row].image
-        newNoteVC.tempIndex = indexPath.row
-        //noteService.isEdit = true
-        navigationController?.pushViewController(newNoteVC, animated: true)
+		newNoteVC.tempIndex = indexPath.row
+		NoteService.shared.isEdit = true
+		//noteService.isEdit = true
+		navigationController?.pushViewController(newNoteVC, animated: true)
 		
 	}
 	
@@ -246,10 +250,10 @@ extension NoteViewController: UITableViewDelegate {
 	
 	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
-//			notesArray.remove(at: indexPath.row)
+			//			notesArray.remove(at: indexPath.row)
 			NoteService.shared.notes.remove(at: indexPath.row)
-//			noteService.notes.remove(at: indexPath.row)
-//			print("noteService.notes: ", noteService.notes)
+			//			noteService.notes.remove(at: indexPath.row)
+			//			print("noteService.notes: ", noteService.notes)
 			navigationController?.viewControllers[0].title = "Заметки (\(notesArray.count))"
 			tableView.reloadData()
 		}

@@ -8,9 +8,9 @@
 
 import Foundation
 
-struct NoteFromBase:Decodable{
+struct NoteFromBase: Codable{
     var imageURL: String
-    let text: String
+    var text: String
 }
 
 class NoteService {
@@ -37,11 +37,13 @@ import UIKit
 struct Note {
     var text: String
     var image: UIImage? //Data?
+	var imageURL: String
     
-    init(text: String, image: UIImage?) {
+	init(text: String, image: UIImage?, imageURL: String) {
         //self.init()
         self.text = text
         self.image = image
+		self.imageURL = imageURL
     }
 }
 

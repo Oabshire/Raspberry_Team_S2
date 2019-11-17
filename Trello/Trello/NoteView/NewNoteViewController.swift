@@ -15,7 +15,7 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 	
 	var imageIsPicked = false
 	
-	var tempIndex = 0
+	var tempIndex: Int!
 	let noteService = NoteService.shared
 	let noteVC = NoteViewController()
 	let imagePickerVC = ImagePickerTableViewCell()
@@ -43,6 +43,10 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 		textFieldVC.textField.font = UIFont.systemFont(ofSize: 20)
 		view.addSubview(textFieldVC)
 		
+		if tempIndex == nil {
+			tempIndex = NoteService.shared.notes.count
+		}
+		
 		
 		let saveBarItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveNote))
 		navigationController?.viewControllers[1].navigationItem.rightBarButtonItem = saveBarItem
@@ -57,8 +61,19 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 			}
 		} else {
 			if let temp = textFieldVC.textField.text {
-				NoteService.shared.notes[tempIndex] = Note(text: temp, image: imagePickerVC.imagePicker.image)
+				NoteService.shared.notes.append(Note(text: temp, image: imagePickerVC.imagePicker.image, imageURL: ""))
 			}
+			
+//			uploadPosts(NoteService.shared.notes) {
+//				result in
+//				print(result)
+//			}
+			
+		}
+		
+		uploadPosts(NoteService.shared.notes) {
+			result in
+			print(result)
 		}
 		//		if noteService.isEdit {
 		//            if let temp = textFieldVC.textField.text {

@@ -24,7 +24,7 @@ func downloadPosts(_ completionHandler: @escaping (_ genres: [NoteFromBase]) -> 
 	let task = session.dataTask(with: urlRequest, completionHandler: {(data, response, error) in
 		do {
 			let jsonText = try? JSONSerialization.jsonObject(with: data!, options: [])
-			print(jsonText)
+			print(jsonText!)
 			let notes = try JSONDecoder().decode([String: NoteFromBase].self, from: data!)
 			print(notes)
 			let notesFromFirebase = Array(notes.values)
@@ -47,33 +47,35 @@ func downloadPosts(_ completionHandler: @escaping (_ genres: [NoteFromBase]) -> 
 	task.resume()
 }
 
-//func uploadPosts(_ posts: [NoteFromBase], _ completionHandler: @escaping (_ genres: Bool) -> ()) {
-//
-//	let apiKey = "AIzaSyCHc17KIlD5V3QEnHIYJsn3VL4hSC5pGQY"
-//	var memesLink: String {
-//		return "https://troll-4d320.firebaseio.com/notes.json?avvrdd_token=\(apiKey))"
-//	}
-//
-//	var dataToLoad : [String : NoteFromBase] = [:]
-//		for index in 0 ..< posts.count {
-//			dataToLoad["note\(index)"] = posts[index]
-//		}
-//	print(dataToLoad)
-//	//	let dataToLoad = posts
-//	let config = URLSessionConfiguration.default
-//	let session = URLSession(configuration: config)
-//
-//	let url = URL(string: noteLink)!
-//	var urlRequest = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 120)
-//	urlRequest.httpMethod = "PUT"
-//	urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//	urlRequest.httpBody = try! JSONEncoder().encode(dataToLoad)
-//	completionHandler(true)
-//
-//	let task = session.dataTask(with: urlRequest, completionHandler: {(data, response, error) in
-//		do {
-//			let posts = String(data: data!, encoding: .utf8)
-//			print("\n------\n\(posts)")
-//		}
-//	}).resume()
-//}
+func uploadPosts(_ notes: [Note], _ completionHandler: @escaping (_ genres: Bool) -> ()) {
+
+	let apiKey = "AIzaSyCHc17KIlD5V3QEnHIYJsn3VL4hSC5pGQY"
+	var memesLink: String {
+		return "https://troll-4d320.firebaseio.com/notes.json?avvrdd_token=\(apiKey))"
+	}
+
+	var dataToLoad : [String : NoteFromBase] = [:]
+		for index in 0 ..< notes.count {
+			let tempNote = notes[index]
+			let noteForBack = NoteFromBase(imageURL: tempNote.imageURL, text: tempNote.text)
+			dataToLoad["note\(index)"] = noteForBack
+		}
+	print(dataToLoad)
+	//	let dataToLoad = posts
+	let config = URLSessionConfiguration.default
+	let session = URLSession(configuration: config)
+
+	let url = URL(string: memesLink)!
+	var urlRequest = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 120)
+	urlRequest.httpMethod = "PUT"
+	urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+	urlRequest.httpBody = try! JSONEncoder().encode(dataToLoad)
+	completionHandler(true)
+
+	_ = session.dataTask(with: urlRequest, completionHandler: {(data, response, error) in
+		do {
+			let posts = String(data: data!, encoding: .utf8)
+			print("\n------\n\(posts!)")
+		}
+	}).resume()
+}
