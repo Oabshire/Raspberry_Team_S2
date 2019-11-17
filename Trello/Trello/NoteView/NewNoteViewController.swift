@@ -25,45 +25,55 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 		super.viewDidLoad()
 		
 		self.view.backgroundColor = .white
-        
-        tableView.frame = self.view.frame
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(ImagePickerTableViewCell.self, forCellReuseIdentifier: ImagePickerTableViewCell.reuseId)
-        tableView.register(TextFieldTableViewCell.self, forCellReuseIdentifier: TextFieldTableViewCell.reuseId)
-        
-        tableView.rowHeight = UITableView.automaticDimension
+		
+		tableView.frame = self.view.frame
+		tableView.delegate = self
+		tableView.dataSource = self
+		tableView.register(ImagePickerTableViewCell.self, forCellReuseIdentifier: ImagePickerTableViewCell.reuseId)
+		tableView.register(TextFieldTableViewCell.self, forCellReuseIdentifier: TextFieldTableViewCell.reuseId)
+		
+		tableView.rowHeight = UITableView.automaticDimension
 		
 		tableView.tableFooterView = UIView()
-        
-        view.addSubview(tableView)
-
-        textFieldVC.textField.frame = view.frame
-        textFieldVC.textField.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        textFieldVC.textField.font = UIFont.systemFont(ofSize: 20)
-        view.addSubview(textFieldVC)
-        
-        
-        let saveBarItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveNote))
-        navigationController?.viewControllers[1].navigationItem.rightBarButtonItem = saveBarItem
+		
+		view.addSubview(tableView)
+		
+		textFieldVC.textField.frame = view.frame
+		textFieldVC.textField.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+		textFieldVC.textField.font = UIFont.systemFont(ofSize: 20)
+		view.addSubview(textFieldVC)
+		
+		
+		let saveBarItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveNote))
+		navigationController?.viewControllers[1].navigationItem.rightBarButtonItem = saveBarItem
 	}
 	
 	@objc
 	func saveNote(){
-//		if noteService.isEdit {
-//            if let temp = textFieldVC.textField.text {
-//                noteVC.noteService.notes[tempIndex].text = temp
-//            }
-//        } else {
-//            if let temp = textFieldVC.textField.text {
-//                let note = Note(text: temp, image: imagePickerVC.imagePicker.image?.pngData())
-//                noteService.notes.append(note)
-//            }
-//        }
-//
-//
-//		textFieldVC.textField.resignFirstResponder()
-//		noteService.isEdit = false
+		
+		if NoteService.shared.isEdit {
+			if let temp = textFieldVC.textField.text {
+				NoteService.shared.notes[tempIndex].text = temp
+			}
+		} else {
+			if let temp = textFieldVC.textField.text {
+				NoteService.shared.notes[tempIndex] = Note(text: temp, image: imagePickerVC.imagePicker.image)
+			}
+		}
+		//		if noteService.isEdit {
+		//            if let temp = textFieldVC.textField.text {
+		//                noteVC.noteService.notes[tempIndex].text = temp
+		//            }
+		//        } else {
+		//            if let temp = textFieldVC.textField.text {
+		//                let note = Note(text: temp, image: imagePickerVC.imagePicker.image?.pngData())
+		//                noteService.notes.append(note)
+		//            }
+		//        }
+		//
+		//
+		//		textFieldVC.textField.resignFirstResponder()
+		//		noteService.isEdit = false
 		navigationController?.popViewController(animated: true)
 	}
 	
