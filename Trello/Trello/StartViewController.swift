@@ -55,7 +55,7 @@ class StartViewController: UIViewController {
     @objc
     func start(){
 		
-		UIView.animate(withDuration: 2, delay: 0, options: [], animations: {
+        UIView.transition(with: self.view, duration: 1.5, options: .transitionFlipFromBottom, animations: {
 			self.startButton.layer.opacity = 0
 			self.helloLabel.layer.opacity = 0
 		}, completion: {
