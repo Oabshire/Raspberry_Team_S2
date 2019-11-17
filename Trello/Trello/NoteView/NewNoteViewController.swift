@@ -15,7 +15,7 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 	
 	var imageIsPicked = false
 	
-	var tempIndex: Int!
+	var tempIndex: Int! = NoteService.shared.notes.count
 	let noteService = NoteService.shared
 	let noteVC = NoteViewController()
 	let imagePickerVC = ImagePickerTableViewCell()
@@ -43,9 +43,6 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 		textFieldVC.textField.font = UIFont.systemFont(ofSize: 20)
 		view.addSubview(textFieldVC)
 		
-		if tempIndex == nil {
-			tempIndex = NoteService.shared.notes.count
-		}
 		
 		
 		let saveBarItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveNote))
@@ -57,24 +54,56 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 		
 		if NoteService.shared.isEdit {
 			if let temp = textFieldVC.textField.text {
+				let image = (imagePickerVC.imagePicker.image)?.resized(toWidth: 200)
+				
 				NoteService.shared.notes[tempIndex].text = temp
+				NoteService.shared.notes[tempIndex].image = image!
+				upload(image: image!, withName: "image\(tempIndex!)") {
+					urlOfImage in
+					DispatchQueue.main.async {
+						
+						print("tempIndex: ", self.tempIndex)
+						NoteService.shared.notes[self.tempIndex].imageURL = urlOfImage
+						print("notes: ", NoteService.shared.notes)
+						
+						print("--------------------")
+						print("Note save")
+						uploadPosts(NoteService.shared.notes) {
+							result in
+							print(result)
+							print("--------------------")
+							print("Notes uploaded")
+						}
+					}
+				}
 			}
 		} else {
 			if let temp = textFieldVC.textField.text {
-				NoteService.shared.notes.append(Note(text: temp, image: imagePickerVC.imagePicker.image, imageURL: ""))
+				
+				let image = (imagePickerVC.imagePicker.image)?.resized(toWidth: 200)
+				
+				NoteService.shared.notes.append(Note(text: temp, image: image!, imageURL: ""))
+				upload(image: image!, withName: "image\(tempIndex!)") {
+					urlOfImage in
+					DispatchQueue.main.async {
+						print("tempIndex: ", self.tempIndex)
+						NoteService.shared.notes[self.tempIndex].imageURL = urlOfImage
+						print("notes: ", NoteService.shared.notes)
+//						NoteService.shared.notes.append(Note(text: temp, image: image!, imageURL: urlOfImage))
+						print("--------------------")
+						print("Note save")
+						uploadPosts(NoteService.shared.notes) {
+							result in
+							print(result)
+							print("--------------------")
+							print("Notes uploaded")
+						}
+					}
+				}
 			}
-			
-//			uploadPosts(NoteService.shared.notes) {
-//				result in
-//				print(result)
-//			}
-			
 		}
 		
-		uploadPosts(NoteService.shared.notes) {
-			result in
-			print(result)
-		}
+		
 		//		if noteService.isEdit {
 		//            if let temp = textFieldVC.textField.text {
 		//                noteVC.noteService.notes[tempIndex].text = temp
@@ -170,5 +199,34 @@ extension NewNoteViewController : UIImagePickerControllerDelegate, UINavigationC
 			dismiss(animated: true)
 		}
 	}
+}
+
+extension UIImage {
+    enum JPEGQuality: CGFloat {
+        case lowest  = 0
+        case low     = 0.25
+        case medium  = 0.5
+        case high    = 0.75
+        case highest = 40
+    }
+	
+	func jpeg(_ jpegQuality: JPEGQuality) -> Data? {
+        return jpegData(compressionQuality: jpegQuality.rawValue)
+    }
+}
+
+extension UIImage {
+    func resized(withPercentage percentage: CGFloat) -> UIImage? {
+        let canvas = CGSize(width: size.width * percentage, height: size.height * percentage)
+        return UIGraphicsImageRenderer(size: canvas, format: imageRendererFormat).image {
+            _ in draw(in: CGRect(origin: .zero, size: canvas))
+        }
+    }
+    func resized(toWidth width: CGFloat) -> UIImage? {
+        let canvas = CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))
+        return UIGraphicsImageRenderer(size: canvas, format: imageRendererFormat).image {
+            _ in draw(in: CGRect(origin: .zero, size: canvas))
+        }
+    }
 }
 

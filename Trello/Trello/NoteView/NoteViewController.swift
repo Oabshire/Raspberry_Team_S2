@@ -181,7 +181,7 @@ extension NoteViewController: UITableViewDataSource {
 		//		let note = notesArray[indexPath.row].text
 		
 		let heightOfText = noteInDB.text.heightWithConstrainedWidth(width: cell.contentView.frame.size.width, font: .systemFont(ofSize: 20))
-		print("sizeOfText ", heightOfText)
+//		print("sizeOfText ", heightOfText)
 		
 		//		cell.noteLabel.text = note
 		cell.noteLabel.text = noteInDB.text
@@ -224,6 +224,7 @@ extension NoteViewController: UITableViewDataSource {
 }
 
 extension NoteViewController: UITableViewDelegate {
+	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let newNoteVC = NewNoteViewController()
 //		let newNote = notesArray[indexPath.row]
@@ -254,6 +255,16 @@ extension NoteViewController: UITableViewDelegate {
 			NoteService.shared.notes.remove(at: indexPath.row)
 			//			noteService.notes.remove(at: indexPath.row)
 			//			print("noteService.notes: ", noteService.notes)
+			
+			uploadPosts(NoteService.shared.notes) {
+				result in
+				print(result)
+				print("--------------------")
+				print("Notes uploaded")
+				DispatchQueue.main.async {
+					self.tableView.reloadData()
+				}
+			}
 			navigationController?.viewControllers[0].title = "Заметки (\(notesArray.count))"
 			tableView.reloadData()
 		}
