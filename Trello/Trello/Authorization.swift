@@ -42,8 +42,8 @@ class Authorization: UIViewController, WKNavigationDelegate {
 
             let convertMatch = String(value[Range(match.range, in: value)!])
             
-//            let rangeToken = Range(NSRange(location: 5, length: 64), in: convertMatch)
-//            let token = convertMatch.substring(with: rangeToken!)
+            let rangeToken = Range(NSRange(location: 5, length: 64), in: convertMatch)
+            let token = convertMatch.substring(with: rangeToken!)
            
             AppDelegate.shared.rootViewController.switchToMainScreen()
             self.dismiss(animated: true, completion: nil)

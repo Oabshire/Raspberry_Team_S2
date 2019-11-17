@@ -25,6 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     static let defaults = UserDefaults.standard
+	let config = URLSessionConfiguration.default
+	var session = URLSession()
 	
 	// @fix
 	var array = [Column]()
@@ -34,7 +36,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow()
         window?.makeKeyAndVisible()
         window?.rootViewController = RootViewController()
-        
+		
+		session = URLSession(configuration: config)
+		
         return true
     }
     

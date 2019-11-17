@@ -8,6 +8,8 @@
 
 import UIKit
 
+import UIKit
+
 class StartViewController: UIViewController {
 	
 	let loadView = DiamondLoad()
@@ -78,4 +80,3 @@ class StartViewController: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
 }
-
