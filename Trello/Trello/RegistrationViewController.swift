@@ -14,11 +14,11 @@ class RegistrationViewController: UIViewController {
         
         let image = UIImage(named: "IMG")
         let imageView = UIImageView(image: image)
-        imageView.frame = CGRect(x: 80, y: 100, width: 265, height: 220)
+		imageView.frame = CGRect(x: view.center.x - 265 / 2, y: 75, width: 265, height: 220)
         view.addSubview(imageView)
         
-        signInButton.center = CGPoint(x: view.center.x, y: view.center.y - 50)
-        signUpButton.center = CGPoint(x: view.center.x, y: view.center.y + 50)
+        signInButton.center = CGPoint(x: view.center.x, y: view.center.y)
+        signUpButton.center = CGPoint(x: view.center.x, y: view.center.y + 100)
         
         view.addSubview(signInButton)
         view.addSubview(signUpButton)
