@@ -22,3 +22,26 @@ class NoteService {
 	public var notes: [Note] = []
     public var isEdit: Bool = false
 }
+
+//
+//  NoteModel.swift
+//  Trello
+//
+//  Created by Onie on 15.11.2019.
+//  Copyright © 2019 Raspberry. All rights reserved.
+//
+
+
+import UIKit
+
+struct Note {
+    var text: String
+    var image: UIImage? //Data?
+    
+    init(text: String, image: UIImage?) {
+        //self.init()
+        self.text = text
+        self.image = image
+    }
+}
+

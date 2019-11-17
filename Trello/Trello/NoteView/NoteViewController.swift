@@ -22,7 +22,8 @@ class NoteViewController: UIViewController {
 			loadView.stopAnimating()
 		}
 	}
-//	let noteService = NoteService.shared
+	
+	let noteService = NoteService.shared
 	
 	let loadView = DiamondLoad()
 	
@@ -69,6 +70,15 @@ class NoteViewController: UIViewController {
 		loadView.center = view.center
 		loadView.startAnimating()
 		view.addSubview(loadView)
+		
+		downloadPosts{
+			notes in
+			DispatchQueue.main.async {
+				self.notesArray = notes
+				NoteService.shared.notes = self.notesInDBFormNotesInBack(notes)
+				self.tableView.reloadData()
+			}
+		}
 	}
 	
 	
@@ -78,18 +88,25 @@ class NoteViewController: UIViewController {
 //		tableView.reloadData()
 //	}
 	
+	func notesInDBFormNotesInBack(_ notesInBack: [NoteFromBase]) -> [Note] {
+		var notesInDB = [Note]()
+		for index in 0 ..< notesInBack.count {
+			let tempNoteInBack = notesInBack[index]
+			var image = UIImage()
+			let url = URL(string: tempNoteInBack.imageURL)
+			if let data = try? Data(contentsOf: url!)
+			{
+				image = UIImage(data: data)!
+			}
+			let note = Note(text: tempNoteInBack.text, image: image)
+				notesInDB.append(note)
+		}
+		return notesInDB
+	}
+	
 	override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 		
-		downloadPosts{
-			notes in
-			DispatchQueue.main.async {
-				self.notesArray = notes
-				self.tableView.reloadData()
-			}
-		}
-        
-        
 //        let config = URLSessionConfiguration.default
 //        let session = URLSession(configuration: config)
 //
@@ -132,31 +149,39 @@ class NoteViewController: UIViewController {
 }
 
 extension NoteViewController: UITableViewDataSource {
+	
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return NoteService.shared.notes.count//notesArray.count
+	}
+	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.reuseId, for: indexPath) as! TableViewCell
 		
 //        let image = UIImage(data:noteService.notes[indexPath.row].image!)
 //        let note = noteService.notes[indexPath.row].text
         
-        var image = UIImage()
+		let noteInDB: Note = NoteService.shared.notes[indexPath.row]
 		
-		let url = URL(string:notesArray[indexPath.row].imageURL)!
+//        var image = UIImage()
+//
+//		let url = URL(string:notesArray[indexPath.row].imageURL)!
+//
+//		print(url)
+//
+//		if let data = try? Data(contentsOf: url)
+//        {
+//            image = UIImage(data: data)!
+//
+//        }
+		cell.noteImage.image = NoteService.shared.notes[indexPath.row].image
 		
-		print(url)
+//		let note = notesArray[indexPath.row].text
 		
-		if let data = try? Data(contentsOf: url)
-        {
-            image = UIImage(data: data)!
-
-        }
-        cell.noteImage.image = image
-		
-		let note = notesArray[indexPath.row].text
-		
-		let heightOfText = note.heightWithConstrainedWidth(width: cell.contentView.frame.size.width, font: .systemFont(ofSize: 20))
+		let heightOfText = noteInDB.text.heightWithConstrainedWidth(width: cell.contentView.frame.size.width, font: .systemFont(ofSize: 20))
 		print("sizeOfText ", heightOfText)
 		
-		cell.noteLabel.text = note
+//		cell.noteLabel.text = note
+		cell.noteLabel.text = noteInDB.text
 		let height = heightOfText < 100 ? heightOfText : 100
 		cell.heightOfNote = height
 		
@@ -169,9 +194,7 @@ extension NoteViewController: UITableViewDataSource {
 		return cell
 	}
 	
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return notesArray.count //noteService.notes.count
-	}
+	
 	
 	func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 		return true
@@ -201,14 +224,16 @@ extension NoteViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let newNoteVC = NewNoteViewController()
         let newNote = notesArray[indexPath.row]
-        newNoteVC.textFieldVC.textField.text = newNote.text
+//        newNoteVC.textFieldVC.textField.text = newNote.text
+		newNoteVC.textFieldVC.textField.text = NoteService.shared.notes[indexPath.row].text
         var image = UIImage()
         let url = URL(string:notesArray[indexPath.row].imageURL)
         if let data = try? Data(contentsOf: url!)
         {
             image = UIImage(data: data)!
         }
-        newNoteVC.imagePickerVC.imageView!.image = image
+//        newNoteVC.imagePickerVC.imageView!.image = image
+		newNoteVC.imagePickerVC.imageView!.image = NoteService.shared.notes[indexPath.row].image
         newNoteVC.tempIndex = indexPath.row
         //noteService.isEdit = true
         navigationController?.pushViewController(newNoteVC, animated: true)
@@ -221,7 +246,8 @@ extension NoteViewController: UITableViewDelegate {
 	
 	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
-			notesArray.remove(at: indexPath.row)
+//			notesArray.remove(at: indexPath.row)
+			NoteService.shared.notes.remove(at: indexPath.row)
 //			noteService.notes.remove(at: indexPath.row)
 //			print("noteService.notes: ", noteService.notes)
 			navigationController?.viewControllers[0].title = "Заметки (\(notesArray.count))"
