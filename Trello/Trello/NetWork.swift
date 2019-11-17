@@ -29,7 +29,7 @@ func downloadPosts(_ completionHandler: @escaping (_ genres: [NoteFromBase]) -> 
 			print(jsonText!)
 			let notes = try JSONDecoder().decode([String: NoteFromBase].self, from: data!)
 			print(notes)
-			let notesFromFirebase = Array(notes.values)
+			var notesFromFirebase = Array(notes.values)
 //			AppDelegate.shared.categories = Array(posts.values)
 //			self.categories = Array(posts.values)
 			//                for (each) in self.categories{
@@ -40,6 +40,7 @@ func downloadPosts(_ completionHandler: @escaping (_ genres: [NoteFromBase]) -> 
 //				self.tableView.reloadData()
 //			}
 //			print(notesFromFirebase)
+			notesFromFirebase = notesFromFirebase.sorted{$0.text < $1.text}
 			completionHandler(notesFromFirebase)
 		} catch {
 			print("\n------\n\(error)")

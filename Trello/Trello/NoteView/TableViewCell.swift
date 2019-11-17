@@ -11,13 +11,9 @@ import UIKit
 class TableViewCell: UITableViewCell {
 	
 	let noteLabel = UILabel()
+	var imageOfNote: UIImage? = nil
 	
-	let noteImage: UIImageView = {
-		let image = UIImage(named: "Photo")
-		let noteImage = UIImageView(image: image)
-//		noteImage.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
-		return noteImage
-	}()
+	let noteImage = UIImageView()
 	
 	var heightOfNote: CGFloat = 100
 	var isTapped = false
@@ -29,19 +25,27 @@ class TableViewCell: UITableViewCell {
 		noteLabel.numberOfLines = 0
 		
 		noteLabel.font = UIFont.systemFont(ofSize: 20)
+		
+		
 		contentView.addSubview(noteLabel)
 		
 		contentView.addSubview(noteImage)
 		
-		noteLabel.translatesAutoresizingMaskIntoConstraints = false
 		noteImage.translatesAutoresizingMaskIntoConstraints = false
+		noteLabel.translatesAutoresizingMaskIntoConstraints = false
+		
 	}
 	
 	override func updateConstraints() {
 		
-		noteImage.topAnchor.constraint(equalTo:contentView.topAnchor, constant: 1).isActive  = true
+//		var heightOfImage: CGFloat = 200
+		var heightOfImage = (noteImage.image?.size.height)!
+		heightOfImage = heightOfImage == 0 ? 0 : 200
+		
+		
+		noteImage.topAnchor.constraint(equalTo:contentView.topAnchor, constant: 10).isActive  = true
 		noteImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-		noteImage.heightAnchor.constraint(equalToConstant: 200).isActive = true
+		noteImage.heightAnchor.constraint(equalToConstant: heightOfImage).isActive = true
 		noteImage.widthAnchor.constraint(equalTo: noteImage.heightAnchor, constant: 0.0).isActive = true
 		
 		noteLabel.topAnchor.constraint(equalTo: noteImage.bottomAnchor, constant:  10).isActive = true
@@ -52,7 +56,6 @@ class TableViewCell: UITableViewCell {
 		let heightForContentView = noteLabel.heightAnchor.constraint(equalToConstant: heightOfNote)
 		heightForContentView.priority = UILayoutPriority(rawValue: 999)
 		heightForContentView.isActive = true
-		
 		
 		super.updateConstraints()
 	}
