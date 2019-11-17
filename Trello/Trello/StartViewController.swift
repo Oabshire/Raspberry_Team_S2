@@ -60,6 +60,7 @@ class StartViewController: UIViewController {
         UIView.transition(with: self.view, duration: 1.5, options: .transitionFlipFromBottom, animations: {
 			self.startButton.layer.opacity = 0
 			self.helloLabel.layer.opacity = 0
+			self.loadView.layer.opacity = 0
 		}, completion: {
 			_ in
 			if AppDelegate.defaults.bool(forKey: "loggedIn"){

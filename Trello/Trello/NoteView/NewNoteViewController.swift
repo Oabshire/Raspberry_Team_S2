@@ -49,16 +49,25 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 		navigationController?.viewControllers[1].navigationItem.rightBarButtonItem = saveBarItem
 	}
 	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		print(#function)
+	}
+	
 	@objc
 	func saveNote(){
 		
 		if NoteService.shared.isEdit {
+			NoteService.shared.isEdit = false
 			if let temp = textFieldVC.textField.text {
 				let image = (imagePickerVC.imagePicker.image)?.resized(toWidth: 200)
 				
 				NoteService.shared.notes[tempIndex].text = temp
-				NoteService.shared.notes[tempIndex].image = image!
-				upload(image: image!, withName: "image\(tempIndex!)") {
+				NoteService.shared.notes[tempIndex].image = image
+				if image != nil {
+					
+				upload(image: image, withName: "image\(tempIndex!)") {
 					urlOfImage in
 					DispatchQueue.main.async {
 						
@@ -76,14 +85,25 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 						}
 					}
 				}
+				} else  {
+					uploadPosts(NoteService.shared.notes) {
+						result in
+						print(result)
+						print("--------------------")
+						print("Notes uploaded")
+					}
+				}
+				
 			}
 		} else {
+			
 			if let temp = textFieldVC.textField.text {
 				
 				let image = (imagePickerVC.imagePicker.image)?.resized(toWidth: 200)
 				
-				NoteService.shared.notes.append(Note(text: temp, image: image!, imageURL: ""))
-				upload(image: image!, withName: "image\(tempIndex!)") {
+				NoteService.shared.notes.append(Note(text: temp, image: image, imageURL: ""))
+				if image != nil {
+				upload(image: image, withName: "image\(tempIndex!)") {
 					urlOfImage in
 					DispatchQueue.main.async {
 						print("tempIndex: ", self.tempIndex)
@@ -98,6 +118,14 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 							print("--------------------")
 							print("Notes uploaded")
 						}
+					}
+				}
+				} else {
+					uploadPosts(NoteService.shared.notes) {
+						result in
+						print(result)
+						print("--------------------")
+						print("Notes uploaded")
 					}
 				}
 			}
@@ -123,6 +151,10 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if indexPath.row == 0 {
+			
+			let cell = tableView.cellForRow(at: indexPath) as! ImagePickerTableViewCell
+//			cell.contentView.willRemoveSubview(imagePickerVC)
+			
 			let cameraIcon = UIImage(named: "image")
 			let photoIcon = UIImage(named: "image")
 			
@@ -161,6 +193,9 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.row == 0 {
 			let cell = imagePickerVC
+			cell.imagePicker.image = UIImage(named: "Photo")
+			cell.imageOnCell = NoteService.shared.notes[tempIndex].image
+			cell.imagePicker.contentMode = .scaleAspectFill
 			return cell
 			
 		} else {
@@ -172,6 +207,7 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 
 //MARK: Work with image
 extension NewNoteViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+	
 	func chooseImagePicker(source: UIImagePickerController.SourceType){
 		
 		if UIImagePickerController.isSourceTypeAvailable(source){
@@ -191,11 +227,15 @@ extension NewNoteViewController : UIImagePickerControllerDelegate, UINavigationC
 	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 		if let image = info[.originalImage] as? UIImage {
 			let selectedImage : UIImage = image // вот картинка
+//			NoteService.shared.notes[tempIndex].image = selectedImage
+			imagePickerVC.imageOnCell = nil
 			imagePickerVC.imagePicker.image = selectedImage
 			imagePickerVC.imagePicker.contentMode = .scaleAspectFill
+			imagePickerVC.imageOnCell = selectedImage
 			imagePickerVC.imagePicker.clipsToBounds = true
 			
 			imageIsPicked = true
+			self.tableView.reloadData()
 			dismiss(animated: true)
 		}
 	}
@@ -213,9 +253,7 @@ extension UIImage {
 	func jpeg(_ jpegQuality: JPEGQuality) -> Data? {
         return jpegData(compressionQuality: jpegQuality.rawValue)
     }
-}
-
-extension UIImage {
+	
     func resized(withPercentage percentage: CGFloat) -> UIImage? {
         let canvas = CGSize(width: size.width * percentage, height: size.height * percentage)
         return UIGraphicsImageRenderer(size: canvas, format: imageRendererFormat).image {

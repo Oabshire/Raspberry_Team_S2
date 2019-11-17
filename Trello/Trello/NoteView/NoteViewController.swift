@@ -76,6 +76,7 @@ class NoteViewController: UIViewController {
 			DispatchQueue.main.async {
 				self.notesArray = notes
 				NoteService.shared.notes = self.notesInDBFormNotesInBack(notes)
+				self.navigationController?.viewControllers[0].title = "Заметки (\(NoteService.shared.notes.count))"
 				self.tableView.reloadData()
 			}
 		}
@@ -131,7 +132,7 @@ class NoteViewController: UIViewController {
 		//        task.resume()
 		
 		navigationController?.setNavigationBarHidden(false, animated: true)
-		navigationController?.viewControllers[0].title = "Заметки (\(notesArray.count))"
+		navigationController?.viewControllers[0].title = "Заметки (\(NoteService.shared.notes.count))"
 		
 		tableView.reloadData()
 	}
@@ -176,6 +177,7 @@ extension NoteViewController: UITableViewDataSource {
 		//            image = UIImage(data: data)!
 		//
 		//        }
+//		cell.imageOfNote = NoteService.shared.notes[indexPath.row].image
 		cell.noteImage.image = NoteService.shared.notes[indexPath.row].image
 		
 		//		let note = notesArray[indexPath.row].text
@@ -190,9 +192,9 @@ extension NoteViewController: UITableViewDataSource {
 		
 		cell.accessoryType = .disclosureIndicator
 		
-		let showMoreTap = UITapGestureRecognizer(target: self, action: #selector(tapCenterOfCell(_:)))
-		
-		cell.contentView.addGestureRecognizer(showMoreTap)
+//		let showMoreTap = UITapGestureRecognizer(target: self, action: #selector(tapCenterOfCell(_:)))
+//
+//		cell.contentView.addGestureRecognizer(showMoreTap)
 		
 		return cell
 	}

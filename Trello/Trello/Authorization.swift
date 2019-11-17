@@ -45,6 +45,7 @@ class Authorization: UIViewController, WKNavigationDelegate {
             let rangeToken = Range(NSRange(location: 5, length: 64), in: convertMatch)
             let token = convertMatch.substring(with: rangeToken!)
            
+			AppDelegate.defaults.set(true, forKey: "loggedIn")
             AppDelegate.shared.rootViewController.switchToMainScreen()
             self.dismiss(animated: true, completion: nil)
         }
