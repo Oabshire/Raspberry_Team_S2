@@ -102,7 +102,7 @@
 				096524BA237804A70047D8D1 /* RootViewController.swift */,
 				096524CA237804FB0047D8D1 /* StartViewController.swift */,
 				096524D4237805D60047D8D1 /* RegistrationViewController.swift */,
-				A7495DC42380672700B79F28 /* DiamondLoad.swift */,
+				A79012D6238334F50067097E /* Animation */,
 				A7495DC823808DA100B79F28 /* Authorization.swift */,
 				A7495DC623808D9900B79F28 /* Net.swift */,
 				A7495DCE23815BBC00B79F28 /* NetWork.swift */,
@@ -119,6 +119,14 @@
 				096524C4237804A80047D8D1 /* Info.plist */,
 			);
 			path = Trello;
+			sourceTree = "<group>";
+		};
+		A79012D6238334F50067097E /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				A7495DC42380672700B79F28 /* DiamondLoad.swift */,
+			);
+			path = Animation;
 			sourceTree = "<group>";
 		};
 		A7C3CFC02379E64B000FEAC8 /* TaskView */ = {

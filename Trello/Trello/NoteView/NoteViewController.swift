@@ -137,7 +137,7 @@ extension NoteViewController: UITableViewDataSource {
 			let noteInDB: Note = NoteService.shared.notes[indexPath.row]
 			if noteInDB.image == nil {
 				//				print("image = nil:" , indexPath.row)
-				var image = loadImage(stringUrl: noteInDB.imageURL, index: indexPath.row)
+				loadImage(stringUrl: noteInDB.imageURL, index: indexPath.row)
 				tableView.reloadData()
 			}
 		}
@@ -145,12 +145,16 @@ extension NoteViewController: UITableViewDataSource {
 		loadIndicator.frame.size = CGSize(width: 100, height: 100)
 		loadIndicator.center = cell.contentView.center // не по центру (
 		loadIndicator.startAnimating()
-		cell.contentView.addSubview(loadIndicator)
+		if noteInDB.imageURL != "" {
+			cell.contentView.addSubview(loadIndicator)
+		}
+		
 		cell.noteImage.image = noteInDB.image
 		
-		//		if cell.noteImage.image != nil {
-		//			loadIndicator.stopAnimating()
-		//		}
+		
+		if cell.noteImage.image != nil {
+			loadIndicator.stopAnimating()
+		}
 		cell.noteLabel.text = noteInDB.text
 		cell.heightOfNote = height
 		cell.accessoryType = .disclosureIndicator
@@ -235,7 +239,7 @@ extension String {
 }
 
 extension NoteViewController {
-	func loadImage(stringUrl: String, index: Int) -> UIImage? {
+	func loadImage(stringUrl: String, index: Int){
 		var image = UIImage()
 		if let url = URL(string: stringUrl) {
 			
@@ -247,8 +251,6 @@ extension NoteViewController {
 		NoteService.shared.notes[index].image = image
 		tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .fade)
 		
-		return image
-		
 	}
 }
 
@@ -256,20 +258,11 @@ extension NoteViewController : UITableViewDataSourcePrefetching {
 	
 	func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
 		
-		for indexPath in indexPaths {
-			
-			//			print("prefetchRowsAt")
-			//			print(indexPath.row)
-		}
 	}
 	
-	func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-		
-		for indexPath in indexPaths {
-			
-			//			print("cancelPrefetchingForRowsAt")
-		}
-	}
+//	func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
+//
+//	}
 	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
 		print("beginDragging: \(scrollView.contentOffset)")
 		velocityOfTable = CGPoint(x: 1, y: 1)
@@ -289,7 +282,7 @@ extension NoteViewController : UITableViewDataSourcePrefetching {
 		print("enddragging")
 		velocityOfTable = .zero
 		let t = tableView.indexPathsForVisibleRows!
-		tableView.reloadRows(at: t, with: .left)
+		tableView.reloadRows(at: t, with: .fade)
 	}
 	
 }

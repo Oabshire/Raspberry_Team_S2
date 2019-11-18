@@ -17,8 +17,9 @@ class TaskViewController: UIViewController {
 	let userSettings = UserDefaults.standard
 	
 	let layout = UICollectionViewFlowLayout()
-	//	var collectionView: TaskListsCollectionView!
 	var collectionView: UICollectionView!
+	
+	var loadIndicator = DiamondLoad()
 	
 	init() {
 		super.init(nibName: nil, bundle: nil)
@@ -61,6 +62,11 @@ class TaskViewController: UIViewController {
 		
 		view.addSubview(collectionView)
 		
+		loadIndicator.dotsColor = UIColor(red: 227 / 255, green: 172 / 255, blue: 1, alpha: 1)
+		loadIndicator.frame.size = CGSize(width: 70, height: 70)
+		loadIndicator.center = view.center
+		view.addSubview(loadIndicator)
+		
 		Net.shared.getMyLists() { [weak self] (result) in
 			switch result {
 			case .success(let lists):
@@ -69,13 +75,16 @@ class TaskViewController: UIViewController {
 				DispatchQueue.main.async {
 					self!.serverToDB(lists)
 					self?.collectionView.reloadData()
+					
+					UIView.animate(withDuration: 0.5, delay: 0.3, options: [], animations: {
+						self!.loadIndicator.layer.opacity = 0
+					}, completion: nil)
+					
 				}
 			case .failure(let error):
 				print(error.localizedDescription)
 			}
 		}
-		
-		
 	}
 	
 	func serverToDB(_ list: ModelList) {
@@ -114,7 +123,7 @@ class TaskViewController: UIViewController {
 		//		self.navigationController?.title = "Задачи "
 		/////////
 		
-		
+		loadIndicator.startAnimating()
 		navigationController?.setNavigationBarHidden(false, animated: true)
 	}
 	

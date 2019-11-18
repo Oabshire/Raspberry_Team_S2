@@ -25,21 +25,10 @@ func downloadPosts(_ completionHandler: @escaping (_ genres: [NoteFromBase]) -> 
 	
 	let task = session.dataTask(with: urlRequest, completionHandler: {(data, response, error) in
 		do {
-			let jsonText = try? JSONSerialization.jsonObject(with: data!, options: [])
-			//			print(jsonText!)
+			
 			let notes = try JSONDecoder().decode([String: NoteFromBase].self, from: data!)
 			//			print(notes)
 			var notesFromFirebase = Array(notes.values)
-			//			AppDelegate.shared.categories = Array(posts.values)
-			//			self.categories = Array(posts.values)
-			//                for (each) in self.categories{
-			//                    self.category.append(each.title)
-			//                }
-			//			print("\n------\n\(notes)")
-			//			DispatchQueue.main.async {
-			//				self.tableView.reloadData()
-			//			}
-			//			print(notesFromFirebase)
 			notesFromFirebase = notesFromFirebase.sorted{$0.text < $1.text}
 			completionHandler(notesFromFirebase)
 		} catch {

@@ -71,7 +71,7 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 						urlOfImage in
 						DispatchQueue.main.async {
 							
-							print("tempIndex: ", self.tempIndex)
+//							print("tempIndex: ", self.tempIndex)
 							NoteService.shared.notes[self.tempIndex].imageURL = urlOfImage
 							print("notes: ", NoteService.shared.notes)
 							
@@ -152,7 +152,7 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if indexPath.row == 0 {
 			
-			let cell = tableView.cellForRow(at: indexPath) as! ImagePickerTableViewCell
+//			let cell = tableView.cellForRow(at: indexPath) as! ImagePickerTableViewCell
 			//			cell.contentView.willRemoveSubview(imagePickerVC)
 			
 			let cameraIcon = UIImage(named: "image")

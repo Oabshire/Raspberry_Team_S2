@@ -39,7 +39,7 @@ class StartViewController: UIViewController {
 			var notesInDB = [Note]()
 			for index in 0 ..< notes.count {
 				let tempNoteInBack = notes[index]
-				var image = UIImage()
+				
 				let note = Note(text: tempNoteInBack.text, image: nil, imageURL: tempNoteInBack.imageURL)
 				notesInDB.append(note)
 			}
