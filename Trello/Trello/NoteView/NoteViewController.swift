@@ -27,6 +27,8 @@ class NoteViewController: UIViewController {
 	
 	let loadView = DiamondLoad()
 	
+	var velocityOfTable: CGPoint = .zero
+	
 	public static var notesCount = 0
 	public let tableView = UITableView()
 	var dictOfHeight = [IndexPath : CGFloat]()
@@ -129,11 +131,12 @@ extension NoteViewController: UITableViewDataSource {
 		let noteInDB: Note = NoteService.shared.notes[indexPath.row]
 		let heightOfText = noteInDB.text.heightWithConstrainedWidth(width: cell.contentView.frame.size.width, font: .systemFont(ofSize: 20))
 		let height = heightOfText < 100 ? heightOfText : 100
+		let index = indexPath
 		
-		if tableView.indexPathsForVisibleRows!.contains(indexPath) {
+		if tableView.indexPathsForVisibleRows!.contains(indexPath), velocityOfTable == .zero {
 			let noteInDB: Note = NoteService.shared.notes[indexPath.row]
 			if noteInDB.image == nil {
-				print("image = nil:" , indexPath.row)
+				//				print("image = nil:" , indexPath.row)
 				var image = loadImage(stringUrl: noteInDB.imageURL, index: indexPath.row)
 				tableView.reloadData()
 			}
@@ -255,8 +258,8 @@ extension NoteViewController : UITableViewDataSourcePrefetching {
 		
 		for indexPath in indexPaths {
 			
-			print("prefetchRowsAt")
-			print(indexPath.row)
+			//			print("prefetchRowsAt")
+			//			print(indexPath.row)
 		}
 	}
 	
@@ -264,7 +267,29 @@ extension NoteViewController : UITableViewDataSourcePrefetching {
 		
 		for indexPath in indexPaths {
 			
-			print("cancelPrefetchingForRowsAt")
+			//			print("cancelPrefetchingForRowsAt")
 		}
 	}
+	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+		print("beginDragging: \(scrollView.contentOffset)")
+		velocityOfTable = CGPoint(x: 1, y: 1)
+		
+	}
+	
+	//	func scrollViewDidScroll(_ scrollView: UIScrollView) {
+	//			print("offset: \(scrollView.contentOffset)")
+	
+	//	}
+	
+	//	func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+	//
+	//	}
+	
+	func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+		print("enddragging")
+		velocityOfTable = .zero
+		let t = tableView.indexPathsForVisibleRows!
+		tableView.reloadRows(at: t, with: .left)
+	}
+	
 }

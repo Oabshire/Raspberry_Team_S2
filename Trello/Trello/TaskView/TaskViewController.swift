@@ -17,13 +17,13 @@ class TaskViewController: UIViewController {
 	let userSettings = UserDefaults.standard
 	
 	let layout = UICollectionViewFlowLayout()
-//	var collectionView: TaskListsCollectionView!
+	//	var collectionView: TaskListsCollectionView!
 	var collectionView: UICollectionView!
 	
 	init() {
 		super.init(nibName: nil, bundle: nil)
 		self.tabBarItem = UITabBarItem(title: "Задачи", image: UIImage(named: "Task"), tag: 0)
-//				self.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 0)
+		//				self.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 0)
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -60,7 +60,46 @@ class TaskViewController: UIViewController {
 		collectionView.addGestureRecognizer(longPress)
 		
 		view.addSubview(collectionView)
+		
+		Net.shared.getMyLists() { [weak self] (result) in
+			switch result {
+			case .success(let lists):
+				ModelCollection.shared.modelCollection = lists
+				print(lists)
+				DispatchQueue.main.async {
+					self!.serverToDB(lists)
+					self?.collectionView.reloadData()
+				}
+			case .failure(let error):
+				print(error.localizedDescription)
+			}
+		}
+		
+		
 	}
+	
+	func serverToDB(_ list: ModelList) {
+		
+		let listOfCards = list.lists
+		let listOfTasks = list.cards
+		
+		for index in 0 ..< listOfCards.count {
+			let column = Column(name: listOfCards[index]!.name)
+			AppDelegate.shared.array.append(column)
+			
+		}
+		print("-------------")
+		print("array of tasks, ", AppDelegate.shared.array)
+		for index in 0 ..< listOfTasks.count {
+			for inexOfList in 0 ..< listOfCards.count {
+				
+				AppDelegate.shared.array[inexOfList].rows.append(listOfTasks[index]!.name)
+			}
+		}
+		//		print("count of cards: ", AppDelegate.shared.array.count)
+		print("array of tasks, ", AppDelegate.shared.array)
+	}
+	
 	
 	//MARK: - ViewWillAppear
 	
@@ -72,7 +111,7 @@ class TaskViewController: UIViewController {
 		//////////
 		//#fix
 		navigationController?.viewControllers[0].title = "Задачи"
-//		self.navigationController?.title = "Задачи "
+		//		self.navigationController?.title = "Задачи "
 		/////////
 		
 		
@@ -94,6 +133,14 @@ class TaskViewController: UIViewController {
 			let textField = addTaskAllert.textFields![0] as UITextField
 			if let text = textField.text {
 				AppDelegate.shared.array.append(Column(name: text))
+				Net.shared.addNewList(listName: text , completion: { [weak self] (result) in
+					switch result {
+					case .success(let lists):
+						ModelCollection.shared.modelCollection.lists.append(List(name: lists.name, id: lists.id, idBoard: lists.idBoard))
+					case .failure(let error):
+						print(error.localizedDescription)
+					}
+				})
 			} else {
 				return
 			}
@@ -122,7 +169,7 @@ extension TaskViewController: UICollectionViewDataSource {
 		let currentColumn = AppDelegate.shared.array[indexPath.item]
 		
 		cell.data = currentColumn
-
+		
 		
 		let title = currentColumn.name
 		cell.navigationBar.items?[0].title = title

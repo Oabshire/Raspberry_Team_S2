@@ -67,24 +67,24 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 				NoteService.shared.notes[tempIndex].image = image
 				if image != nil {
 					
-				upload(image: image, withName: "image\(tempIndex!)") {
-					urlOfImage in
-					DispatchQueue.main.async {
-						
-						print("tempIndex: ", self.tempIndex)
-						NoteService.shared.notes[self.tempIndex].imageURL = urlOfImage
-						print("notes: ", NoteService.shared.notes)
-						
-						print("--------------------")
-						print("Note save")
-						uploadPosts(NoteService.shared.notes) {
-							result in
-							print(result)
+					upload(image: image, withName: "image\(tempIndex!)") {
+						urlOfImage in
+						DispatchQueue.main.async {
+							
+							print("tempIndex: ", self.tempIndex)
+							NoteService.shared.notes[self.tempIndex].imageURL = urlOfImage
+							print("notes: ", NoteService.shared.notes)
+							
 							print("--------------------")
-							print("Notes uploaded")
+							print("Note save")
+							uploadPosts(NoteService.shared.notes) {
+								result in
+								print(result)
+								print("--------------------")
+								print("Notes uploaded")
+							}
 						}
 					}
-				}
 				} else  {
 					uploadPosts(NoteService.shared.notes) {
 						result in
@@ -103,23 +103,23 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 				
 				NoteService.shared.notes.append(Note(text: temp, image: image, imageURL: ""))
 				if image != nil {
-				upload(image: image, withName: "image\(tempIndex!)") {
-					urlOfImage in
-					DispatchQueue.main.async {
-						print("tempIndex: ", self.tempIndex)
-						NoteService.shared.notes[self.tempIndex].imageURL = urlOfImage
-						print("notes: ", NoteService.shared.notes)
-//						NoteService.shared.notes.append(Note(text: temp, image: image!, imageURL: urlOfImage))
-						print("--------------------")
-						print("Note save")
-						uploadPosts(NoteService.shared.notes) {
-							result in
-							print(result)
+					upload(image: image, withName: "image\(tempIndex!)") {
+						urlOfImage in
+						DispatchQueue.main.async {
+							print("tempIndex: ", self.tempIndex)
+							NoteService.shared.notes[self.tempIndex].imageURL = urlOfImage
+							print("notes: ", NoteService.shared.notes)
+							//						NoteService.shared.notes.append(Note(text: temp, image: image!, imageURL: urlOfImage))
 							print("--------------------")
-							print("Notes uploaded")
+							print("Note save")
+							uploadPosts(NoteService.shared.notes) {
+								result in
+								print(result)
+								print("--------------------")
+								print("Notes uploaded")
+							}
 						}
 					}
-				}
 				} else {
 					uploadPosts(NoteService.shared.notes) {
 						result in
@@ -153,7 +153,7 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 		if indexPath.row == 0 {
 			
 			let cell = tableView.cellForRow(at: indexPath) as! ImagePickerTableViewCell
-//			cell.contentView.willRemoveSubview(imagePickerVC)
+			//			cell.contentView.willRemoveSubview(imagePickerVC)
 			
 			let cameraIcon = UIImage(named: "image")
 			let photoIcon = UIImage(named: "image")
@@ -227,7 +227,7 @@ extension NewNoteViewController : UIImagePickerControllerDelegate, UINavigationC
 	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 		if let image = info[.originalImage] as? UIImage {
 			let selectedImage : UIImage = image // вот картинка
-//			NoteService.shared.notes[tempIndex].image = selectedImage
+			//			NoteService.shared.notes[tempIndex].image = selectedImage
 			imagePickerVC.imageOnCell = nil
 			imagePickerVC.imagePicker.image = selectedImage
 			imagePickerVC.imagePicker.contentMode = .scaleAspectFill
@@ -242,29 +242,29 @@ extension NewNoteViewController : UIImagePickerControllerDelegate, UINavigationC
 }
 
 extension UIImage {
-    enum JPEGQuality: CGFloat {
-        case lowest  = 0
-        case low     = 0.25
-        case medium  = 0.5
-        case high    = 0.75
-        case highest = 40
-    }
+	enum JPEGQuality: CGFloat {
+		case lowest  = 0
+		case low     = 0.25
+		case medium  = 0.5
+		case high    = 0.75
+		case highest = 40
+	}
 	
 	func jpeg(_ jpegQuality: JPEGQuality) -> Data? {
-        return jpegData(compressionQuality: jpegQuality.rawValue)
-    }
+		return jpegData(compressionQuality: jpegQuality.rawValue)
+	}
 	
-    func resized(withPercentage percentage: CGFloat) -> UIImage? {
-        let canvas = CGSize(width: size.width * percentage, height: size.height * percentage)
-        return UIGraphicsImageRenderer(size: canvas, format: imageRendererFormat).image {
-            _ in draw(in: CGRect(origin: .zero, size: canvas))
-        }
-    }
-    func resized(toWidth width: CGFloat) -> UIImage? {
-        let canvas = CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))
-        return UIGraphicsImageRenderer(size: canvas, format: imageRendererFormat).image {
-            _ in draw(in: CGRect(origin: .zero, size: canvas))
-        }
-    }
+	func resized(withPercentage percentage: CGFloat) -> UIImage? {
+		let canvas = CGSize(width: size.width * percentage, height: size.height * percentage)
+		return UIGraphicsImageRenderer(size: canvas, format: imageRendererFormat).image {
+			_ in draw(in: CGRect(origin: .zero, size: canvas))
+		}
+	}
+	func resized(toWidth width: CGFloat) -> UIImage? {
+		let canvas = CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))
+		return UIGraphicsImageRenderer(size: canvas, format: imageRendererFormat).image {
+			_ in draw(in: CGRect(origin: .zero, size: canvas))
+		}
+	}
 }
 

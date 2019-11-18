@@ -111,11 +111,11 @@ extension TaskListCell {
 			let textField = addTaskAllert.textFields![0] as UITextField
 			
 			guard let text = textField.text else {
-				 return
+				return
 			}
 			
 			self.data?.rows.append(text)
-									
+			
 			self.collectionViewForTasks.reloadData()
 		}
 		

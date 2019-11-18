@@ -38,7 +38,7 @@ class TableViewCell: UITableViewCell {
 	
 	override func updateConstraints() {
 		
-//		var heightOfImage: CGFloat = 200
+		//		var heightOfImage: CGFloat = 200
 		var heightOfImage: CGFloat = 50 //(noteImage.image?.size.height)!
 		heightOfImage = heightOfImage == 0 ? 0 : 200
 		

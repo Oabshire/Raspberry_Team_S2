@@ -13,29 +13,26 @@ import UIKit
 class StartViewController: UIViewController {
 	
 	let loadView = DiamondLoad()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.backgroundColor = UIColor.white
-        
-        helloLabel.center = CGPoint(x: view.center.x, y: view.center.y - 50)
-        view.addSubview(helloLabel)
-        
-        startButton.center = CGPoint(x: view.center.x, y: view.center.y + 50)
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
+		view.backgroundColor = UIColor.white
+		
+		helloLabel.center = CGPoint(x: view.center.x, y: view.center.y - 50)
+		view.addSubview(helloLabel)
+		
+		startButton.center = CGPoint(x: view.center.x, y: view.center.y + 50)
 		startButton.isEnabled = false
-		startButton.backgroundColor = .lightGray
-        view.addSubview(startButton)
-//		почему-то при добавлении анимации кнопка становится неактивной (
-//		UIView.animate(withDuration: 2.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3, options: [.curveEaseInOut, .repeat, .autoreverse], animations: {
-//			self.startButton.transform = CGAffineTransform.identity.scaledBy(x: 1.5, y: 1.5)
-//		}, completion: nil)
+		startButton.layer.opacity = 0
+		view.addSubview(startButton)
 		
 		loadView.dotsColor = UIColor(red: 227 / 255, green: 172 / 255, blue: 1, alpha: 1)
 		loadView.frame.size = CGSize(width: 70, height: 70)
 		loadView.center = CGPoint(x: view.center.x, y: view.center.y + 150)
 		view.addSubview(loadView)
 		
+//		загрузка заметок и остановка индикатора загрузки
 		downloadPosts() {
 			notes in
 			
@@ -43,55 +40,45 @@ class StartViewController: UIViewController {
 			for index in 0 ..< notes.count {
 				let tempNoteInBack = notes[index]
 				var image = UIImage()
-//				if let url = URL(string: tempNoteInBack.imageURL) {
-//
-//					if let data = try? Data(contentsOf: url)
-//					{
-//						image = UIImage(data: data)!
-//					}
-//				}
 				let note = Note(text: tempNoteInBack.text, image: nil, imageURL: tempNoteInBack.imageURL)
 				notesInDB.append(note)
 			}
 			DispatchQueue.main.async {
 				NoteService.shared.notes = notesInDB
-//				sleep(2)
 				self.startButton.isEnabled = true
 				
 				
 				UIView.animate(withDuration: 0.5, delay: 0.3, options: [], animations: {
+					self.startButton.layer.opacity = 1
 					self.startButton.backgroundColor = UIColor.blue
 					self.loadView.layer.opacity = 0
-//					self.loadView.stopAnimating()
 				}, completion: nil)
 			}
 		}
+	}
+	
+	var helloLabel: UILabel = {
+		let helloLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+		helloLabel.text = "Добро пожаловать!"
+		helloLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 25)
+		helloLabel.numberOfLines = 2
+		helloLabel.textAlignment = .center
+		return helloLabel
+	}()
+	
+	var startButton: UIButton = {
+		let startButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+		startButton.backgroundColor = UIColor.blue
+		startButton.setTitle("Начать", for: .normal)
+		startButton.layer.cornerRadius = 15
+		startButton.addTarget( self, action: #selector(start), for: .touchUpInside)
+		return startButton
+	}()
+	
+	@objc
+	func start(){
 		
-		
-    }
-    
-    var helloLabel: UILabel = {
-        let helloLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
-        helloLabel.text = "Добро пожаловать!"
-        helloLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 25)
-        helloLabel.numberOfLines = 2
-        helloLabel.textAlignment = .center
-        return helloLabel
-    }()
-    
-    var startButton: UIButton = {
-        let startButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
-        startButton.backgroundColor = UIColor.blue
-        startButton.setTitle("Начать", for: .normal)
-        startButton.layer.cornerRadius = 15
-        startButton.addTarget( self, action: #selector(start), for: .touchUpInside)
-        return startButton
-    }()
-    
-    @objc
-    func start(){
-		
-        UIView.transition(with: self.view, duration: 1.5, options: .transitionFlipFromBottom, animations: {
+		UIView.transition(with: self.view, duration: 1.5, options: .transitionFlipFromBottom, animations: {
 			self.startButton.layer.opacity = 0
 			self.helloLabel.layer.opacity = 0
 			self.loadView.layer.opacity = 0
@@ -103,15 +90,10 @@ class StartViewController: UIViewController {
 				AppDelegate.shared.rootViewController.switchToLogout()
 			}
 		})
-//        if AppDelegate.defaults.bool(forKey: "loggedIn") {
-//            AppDelegate.shared.rootViewController.switchToMainScreen()
-//        } else {
-//            AppDelegate.shared.rootViewController.switchToLogout()
-//        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
+	}
+	
+	override func viewWillAppear(_ animated: Bool) {
 		loadView.startAnimating()
-        navigationController?.setNavigationBarHidden(true, animated: true)
-    }
+		navigationController?.setNavigationBarHidden(true, animated: true)
+	}
 }

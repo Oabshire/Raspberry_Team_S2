@@ -72,9 +72,6 @@ public class DiamondLoad: UIView {
 		switch style{
 		case .NoSpin:
 			dotsDelay = 0
-//		case .SpinInMove, .SpinInEnd:
-//			dotsDelay = 0.1
-			
 		}
 		let time = DispatchTime.now() + 1
 		
