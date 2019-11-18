@@ -9,19 +9,19 @@
 import UIKit
 
 class BaseTabBarController: UITabBarController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        let taskViewController = UINavigationController(rootViewController: TaskViewController() )
-        
-        
-        let noteViewController = UINavigationController(rootViewController: NoteViewController())
-        
-        
-        let settingViewController = UINavigationController(rootViewController: SettingViewController())
-        
-        viewControllers = [taskViewController, noteViewController, settingViewController]
-    }
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
+		let taskViewController = UINavigationController(rootViewController: TaskViewController() )
+		
+		
+		let noteViewController = UINavigationController(rootViewController: NoteViewController())
+		
+		
+		let settingViewController = UINavigationController(rootViewController: SettingViewController())
+		
+		viewControllers = [taskViewController, noteViewController, settingViewController]
+	}
 }
 

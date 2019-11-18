@@ -136,7 +136,7 @@ extension NoteViewController: UITableViewDataSource {
 		if tableView.indexPathsForVisibleRows!.contains(indexPath), velocityOfTable == .zero {
 			let noteInDB: Note = NoteService.shared.notes[indexPath.row]
 			if noteInDB.image == nil {
-//				print("image = nil:" , indexPath.row)
+				//				print("image = nil:" , indexPath.row)
 				var image = loadImage(stringUrl: noteInDB.imageURL, index: indexPath.row)
 				tableView.reloadData()
 			}
@@ -258,8 +258,8 @@ extension NoteViewController : UITableViewDataSourcePrefetching {
 		
 		for indexPath in indexPaths {
 			
-//			print("prefetchRowsAt")
-//			print(indexPath.row)
+			//			print("prefetchRowsAt")
+			//			print(indexPath.row)
 		}
 	}
 	
@@ -267,7 +267,7 @@ extension NoteViewController : UITableViewDataSourcePrefetching {
 		
 		for indexPath in indexPaths {
 			
-//			print("cancelPrefetchingForRowsAt")
+			//			print("cancelPrefetchingForRowsAt")
 		}
 	}
 	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -275,26 +275,15 @@ extension NoteViewController : UITableViewDataSourcePrefetching {
 		velocityOfTable = CGPoint(x: 1, y: 1)
 		
 	}
-		
-		func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//			print("offset: \(scrollView.contentOffset)")
-			
-		}
 	
+	//	func scrollViewDidScroll(_ scrollView: UIScrollView) {
+	//			print("offset: \(scrollView.contentOffset)")
 	
+	//	}
 	
-	func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-		velocityOfTable = velocity
-		if velocityOfTable != .zero {
-			print("velocity: ", velocityOfTable)
-		} else {
-			print("stop")
-			let t = tableView.visibleCells
-			for index in t {
-//				tableView.reloadRows(at: t, with: .fade)
-			}
-		}
-	}
+	//	func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+	//
+	//	}
 	
 	func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
 		print("enddragging")

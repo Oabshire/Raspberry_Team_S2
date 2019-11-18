@@ -9,14 +9,14 @@
 import Foundation
 
 final class ModelCollection {
-
-    var modelCollection: ModelList!
-    
-    static let shared = ModelCollection()
-    
+	
+	var modelCollection: ModelList!
+	
+	static let shared = ModelCollection()
+	
 }
 
 struct Model {
-    var nodeTitle: String
-    var nameCells: [String?]
+	var nodeTitle: String
+	var nameCells: [String?]
 }

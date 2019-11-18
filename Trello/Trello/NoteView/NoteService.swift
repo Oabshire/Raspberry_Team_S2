@@ -9,18 +9,18 @@
 import Foundation
 
 struct NoteFromBase: Codable{
-    var imageURL: String
-    var text: String
+	var imageURL: String
+	var text: String
 }
 
 class NoteService {
-    static var shared: NoteService = {
-        let instance = NoteService()
-        
-        return instance
-    }()
+	static var shared: NoteService = {
+		let instance = NoteService()
+		
+		return instance
+	}()
 	public var notes: [Note] = []
-    public var isEdit: Bool = false
+	public var isEdit: Bool = false
 }
 
 //
@@ -35,15 +35,15 @@ class NoteService {
 import UIKit
 
 struct Note {
-    var text: String
-    var image: UIImage? //Data?
+	var text: String
+	var image: UIImage? //Data?
 	var imageURL: String
-    
+	
 	init(text: String, image: UIImage?, imageURL: String) {
-        //self.init()
-        self.text = text
-        self.image = image
+		//self.init()
+		self.text = text
+		self.image = image
 		self.imageURL = imageURL
-    }
+	}
 }
 
