@@ -24,7 +24,7 @@ class StartViewController: UIViewController {
         
         startButton.center = CGPoint(x: view.center.x, y: view.center.y + 50)
 		startButton.isEnabled = false
-		startButton.backgroundColor = .lightGray
+		startButton.layer.opacity = 0
         view.addSubview(startButton)
 //		почему-то при добавлении анимации кнопка становится неактивной (
 //		UIView.animate(withDuration: 2.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3, options: [.curveEaseInOut, .repeat, .autoreverse], animations: {
@@ -60,6 +60,7 @@ class StartViewController: UIViewController {
 				
 				
 				UIView.animate(withDuration: 0.5, delay: 0.3, options: [], animations: {
+					self.startButton.layer.opacity = 1
 					self.startButton.backgroundColor = UIColor.blue
 					self.loadView.layer.opacity = 0
 //					self.loadView.stopAnimating()
