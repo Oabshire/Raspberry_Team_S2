@@ -26,6 +26,9 @@
 		A7495DC723808D9900B79F28 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7495DC623808D9900B79F28 /* Net.swift */; };
 		A7495DC923808DA100B79F28 /* Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7495DC823808DA100B79F28 /* Authorization.swift */; };
 		A7495DCF23815BBC00B79F28 /* NetWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7495DCE23815BBC00B79F28 /* NetWork.swift */; };
+		A79012CF238328FF0067097E /* ListKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79012CE238328FF0067097E /* ListKey.swift */; };
+		A79012D1238329090067097E /* BoardKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79012D0238329090067097E /* BoardKeys.swift */; };
+		A79012D3238329190067097E /* ModelCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79012D2238329190067097E /* ModelCollection.swift */; };
 		A79E24C8237A01DA00B5F12E /* EachTaskCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E24C3237A01DA00B5F12E /* EachTaskCollectionViewCell.swift */; };
 		A79E24CA237A01DA00B5F12E /* TaskListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E24C5237A01DA00B5F12E /* TaskListCell.swift */; };
 		A79E24CC237A01DA00B5F12E /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E24C7237A01DA00B5F12E /* TaskViewController.swift */; };
@@ -56,6 +59,9 @@
 		A7495DC623808D9900B79F28 /* Net.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		A7495DC823808DA100B79F28 /* Authorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authorization.swift; sourceTree = "<group>"; };
 		A7495DCE23815BBC00B79F28 /* NetWork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetWork.swift; sourceTree = "<group>"; };
+		A79012CE238328FF0067097E /* ListKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListKey.swift; sourceTree = "<group>"; };
+		A79012D0238329090067097E /* BoardKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardKeys.swift; sourceTree = "<group>"; };
+		A79012D2238329190067097E /* ModelCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelCollection.swift; sourceTree = "<group>"; };
 		A79E24C3237A01DA00B5F12E /* EachTaskCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EachTaskCollectionViewCell.swift; sourceTree = "<group>"; };
 		A79E24C5237A01DA00B5F12E /* TaskListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskListCell.swift; sourceTree = "<group>"; };
 		A79E24C7237A01DA00B5F12E /* TaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +108,8 @@
 				A7495DC823808DA100B79F28 /* Authorization.swift */,
 				A7495DC623808D9900B79F28 /* Net.swift */,
 				A7495DCE23815BBC00B79F28 /* NetWork.swift */,
+				A79012CE238328FF0067097E /* ListKey.swift */,
+				A79012D0238329090067097E /* BoardKeys.swift */,
 				A7D924C6237F25F40034ABAB /* NoteView */,
 				A7C3CFC02379E64B000FEAC8 /* TaskView */,
 				096524D2237805B30047D8D1 /* SettingViewController.swift */,
@@ -122,6 +130,7 @@
 				A79E24C7237A01DA00B5F12E /* TaskViewController.swift */,
 				A79E24C5237A01DA00B5F12E /* TaskListCell.swift */,
 				A79E24C3237A01DA00B5F12E /* EachTaskCollectionViewCell.swift */,
+				A79012D2238329190067097E /* ModelCollection.swift */,
 			);
 			path = TaskView;
 			sourceTree = "<group>";
@@ -217,6 +226,7 @@
 				096524BB237804A70047D8D1 /* RootViewController.swift in Sources */,
 				A79E24CA237A01DA00B5F12E /* TaskListCell.swift in Sources */,
 				096524D5237805D60047D8D1 /* RegistrationViewController.swift in Sources */,
+				A79012D1238329090067097E /* BoardKeys.swift in Sources */,
 				096524B9237804A70047D8D1 /* AppDelegate.swift in Sources */,
 				096524D9237806060047D8D1 /* SignUpViewController.swift in Sources */,
 				096524CF2378053C0047D8D1 /* NoteViewController.swift in Sources */,
@@ -230,8 +240,10 @@
 				096524D3237805B30047D8D1 /* SettingViewController.swift in Sources */,
 				A79E24CC237A01DA00B5F12E /* TaskViewController.swift in Sources */,
 				A7D924C9237F26190034ABAB /* ImagePickerTableViewCell.swift in Sources */,
+				A79012CF238328FF0067097E /* ListKey.swift in Sources */,
 				A7495DC52380672700B79F28 /* DiamondLoad.swift in Sources */,
 				096524D1237805700047D8D1 /* NewNoteViewController.swift in Sources */,
+				A79012D3238329190067097E /* ModelCollection.swift in Sources */,
 				36419F1B2379DB3400E95AE5 /* NoteService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

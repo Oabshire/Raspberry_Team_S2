@@ -26,10 +26,6 @@ class StartViewController: UIViewController {
 		startButton.isEnabled = false
 		startButton.layer.opacity = 0
         view.addSubview(startButton)
-//		почему-то при добавлении анимации кнопка становится неактивной (
-//		UIView.animate(withDuration: 2.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3, options: [.curveEaseInOut, .repeat, .autoreverse], animations: {
-//			self.startButton.transform = CGAffineTransform.identity.scaledBy(x: 1.5, y: 1.5)
-//		}, completion: nil)
 		
 		loadView.dotsColor = UIColor(red: 227 / 255, green: 172 / 255, blue: 1, alpha: 1)
 		loadView.frame.size = CGSize(width: 70, height: 70)
@@ -43,19 +39,11 @@ class StartViewController: UIViewController {
 			for index in 0 ..< notes.count {
 				let tempNoteInBack = notes[index]
 				var image = UIImage()
-//				if let url = URL(string: tempNoteInBack.imageURL) {
-//
-//					if let data = try? Data(contentsOf: url)
-//					{
-//						image = UIImage(data: data)!
-//					}
-//				}
 				let note = Note(text: tempNoteInBack.text, image: nil, imageURL: tempNoteInBack.imageURL)
 				notesInDB.append(note)
 			}
 			DispatchQueue.main.async {
 				NoteService.shared.notes = notesInDB
-//				sleep(2)
 				self.startButton.isEnabled = true
 				
 				
@@ -63,7 +51,6 @@ class StartViewController: UIViewController {
 					self.startButton.layer.opacity = 1
 					self.startButton.backgroundColor = UIColor.blue
 					self.loadView.layer.opacity = 0
-//					self.loadView.stopAnimating()
 				}, completion: nil)
 			}
 		}
@@ -104,11 +91,6 @@ class StartViewController: UIViewController {
 				AppDelegate.shared.rootViewController.switchToLogout()
 			}
 		})
-//        if AppDelegate.defaults.bool(forKey: "loggedIn") {
-//            AppDelegate.shared.rootViewController.switchToMainScreen()
-//        } else {
-//            AppDelegate.shared.rootViewController.switchToLogout()
-//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
