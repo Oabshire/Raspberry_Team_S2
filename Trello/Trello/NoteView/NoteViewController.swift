@@ -61,51 +61,17 @@ class NoteViewController: UIViewController {
 		tableView.delegate = self
 		tableView.dataSource = self
 		tableView.tableFooterView = UIView()
+		tableView.prefetchDataSource = self
 		view.addSubview(tableView)
 		
 		tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.reuseId)
 		
-		loadView.dotsColor = .cyan
-		loadView.frame.size = CGSize(width: 70, height: 70)
-		loadView.center = view.center
-		loadView.startAnimating()
-		view.addSubview(loadView)
+		//		loadView.dotsColor = .cyan
+		//		loadView.frame.size = CGSize(width: 70, height: 70)
+		//		loadView.center = view.center
+		//		loadView.startAnimating()
+		//		view.addSubview(loadView)
 		
-		downloadPosts{
-			notes in
-			DispatchQueue.main.async {
-				self.notesArray = notes
-				NoteService.shared.notes = self.notesInDBFormNotesInBack(notes)
-				self.navigationController?.viewControllers[0].title = "Заметки (\(NoteService.shared.notes.count))"
-				self.tableView.reloadData()
-			}
-		}
-	}
-	
-	
-	//	override func viewWillAppear(_ animated: Bool) {
-	//		navigationController?.setNavigationBarHidden(false, animated: true)
-	//		navigationController?.viewControllers[0].title = "Заметки (\(noteService.notes.count))"
-	//		tableView.reloadData()
-	//	}
-	
-	func notesInDBFormNotesInBack(_ notesInBack: [NoteFromBase]) -> [Note] {
-		var notesInDB = [Note]()
-		for index in 0 ..< notesInBack.count {
-			let tempNoteInBack = notesInBack[index]
-			var image = UIImage()
-			if let url = URL(string: tempNoteInBack.imageURL) {
-				
-				if let data = try? Data(contentsOf: url)
-				{
-					image = UIImage(data: data)!
-				}
-			}
-			
-			let note = Note(text: tempNoteInBack.text, image: image, imageURL: tempNoteInBack.imageURL)
-			notesInDB.append(note)
-		}
-		return notesInDB
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -160,41 +126,31 @@ extension NoteViewController: UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.reuseId, for: indexPath) as! TableViewCell
-		
-		//        let image = UIImage(data:noteService.notes[indexPath.row].image!)
-		//        let note = noteService.notes[indexPath.row].text
-		
 		let noteInDB: Note = NoteService.shared.notes[indexPath.row]
-		
-		//        var image = UIImage()
-		//
-		//		let url = URL(string:notesArray[indexPath.row].imageURL)!
-		//
-		//		print(url)
-		//
-		//		if let data = try? Data(contentsOf: url)
-		//        {
-		//            image = UIImage(data: data)!
-		//
-		//        }
-//		cell.imageOfNote = NoteService.shared.notes[indexPath.row].image
-		cell.noteImage.image = NoteService.shared.notes[indexPath.row].image
-		
-		//		let note = notesArray[indexPath.row].text
-		
 		let heightOfText = noteInDB.text.heightWithConstrainedWidth(width: cell.contentView.frame.size.width, font: .systemFont(ofSize: 20))
-//		print("sizeOfText ", heightOfText)
-		
-		//		cell.noteLabel.text = note
-		cell.noteLabel.text = noteInDB.text
 		let height = heightOfText < 100 ? heightOfText : 100
+		
+		if tableView.indexPathsForVisibleRows!.contains(indexPath) {
+			let noteInDB: Note = NoteService.shared.notes[indexPath.row]
+			if noteInDB.image == nil {
+				print("image = nil:" , indexPath.row)
+				var image = loadImage(stringUrl: noteInDB.imageURL, index: indexPath.row)
+				tableView.reloadData()
+			}
+		}
+		let loadIndicator = UIActivityIndicatorView()
+		loadIndicator.frame.size = CGSize(width: 100, height: 100)
+		loadIndicator.center = cell.contentView.center // не по центру (
+		loadIndicator.startAnimating()
+		cell.contentView.addSubview(loadIndicator)
+		cell.noteImage.image = noteInDB.image
+		
+		//		if cell.noteImage.image != nil {
+		//			loadIndicator.stopAnimating()
+		//		}
+		cell.noteLabel.text = noteInDB.text
 		cell.heightOfNote = height
-		
 		cell.accessoryType = .disclosureIndicator
-		
-//		let showMoreTap = UITapGestureRecognizer(target: self, action: #selector(tapCenterOfCell(_:)))
-//
-//		cell.contentView.addGestureRecognizer(showMoreTap)
 		
 		return cell
 	}
@@ -229,16 +185,9 @@ extension NoteViewController: UITableViewDelegate {
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let newNoteVC = NewNoteViewController()
-//		let newNote = notesArray[indexPath.row]
-		//        newNoteVC.textFieldVC.textField.text = newNote.text
+		
 		newNoteVC.textFieldVC.textField.text = NoteService.shared.notes[indexPath.row].text
-//		var image = UIImage()
-//		let url = URL(string:notesArray[indexPath.row].imageURL)
-//		if let data = try? Data(contentsOf: url!)
-//		{
-//			image = UIImage(data: data)!
-//		}
-		//        newNoteVC.imagePickerVC.imageView!.image = image
+		
 		newNoteVC.imagePickerVC.imageView!.image = NoteService.shared.notes[indexPath.row].image
 		newNoteVC.tempIndex = indexPath.row
 		NoteService.shared.isEdit = true
@@ -253,11 +202,8 @@ extension NoteViewController: UITableViewDelegate {
 	
 	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
-			//			notesArray.remove(at: indexPath.row)
-			NoteService.shared.notes.remove(at: indexPath.row)
-			//			noteService.notes.remove(at: indexPath.row)
-			//			print("noteService.notes: ", noteService.notes)
 			
+			NoteService.shared.notes.remove(at: indexPath.row)
 			uploadPosts(NoteService.shared.notes) {
 				result in
 				print(result)
@@ -282,5 +228,43 @@ extension String {
 		let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
 		let boundingBox = self.boundingRect(with: constraintRect, options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [NSAttributedString.Key.font: font], context: nil)
 		return boundingBox.height
+	}
+}
+
+extension NoteViewController {
+	func loadImage(stringUrl: String, index: Int) -> UIImage? {
+		var image = UIImage()
+		if let url = URL(string: stringUrl) {
+			
+			if let data = try? Data(contentsOf: url)
+			{
+				image = UIImage(data: data)!
+			}
+		}
+		NoteService.shared.notes[index].image = image
+		tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .fade)
+		
+		return image
+		
+	}
+}
+
+extension NoteViewController : UITableViewDataSourcePrefetching {
+	
+	func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+		
+		for indexPath in indexPaths {
+			
+			print("prefetchRowsAt")
+			print(indexPath.row)
+		}
+	}
+	
+	func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
+		
+		for indexPath in indexPaths {
+			
+			print("cancelPrefetchingForRowsAt")
+		}
 	}
 }

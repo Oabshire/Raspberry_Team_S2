@@ -17,8 +17,8 @@ func downloadPosts(_ completionHandler: @escaping (_ genres: [NoteFromBase]) -> 
 		return "https://troll-4d320.firebaseio.com/notes.json?avvrdd_token=\(apiKey))"
 	}
 	
-//	let config = URLSessionConfiguration.default
-//	let session = URLSession(configuration: config)
+	let config = URLSessionConfiguration.default
+	let session = URLSession(configuration: config)
 	
 	let url = URL(string: memesLink)!
 	let urlRequest = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 120)
@@ -26,16 +26,16 @@ func downloadPosts(_ completionHandler: @escaping (_ genres: [NoteFromBase]) -> 
 	let task = session.dataTask(with: urlRequest, completionHandler: {(data, response, error) in
 		do {
 			let jsonText = try? JSONSerialization.jsonObject(with: data!, options: [])
-			print(jsonText!)
+//			print(jsonText!)
 			let notes = try JSONDecoder().decode([String: NoteFromBase].self, from: data!)
-			print(notes)
+//			print(notes)
 			var notesFromFirebase = Array(notes.values)
 //			AppDelegate.shared.categories = Array(posts.values)
 //			self.categories = Array(posts.values)
 			//                for (each) in self.categories{
 			//                    self.category.append(each.title)
 			//                }
-			print("\n------\n\(notes)")
+//			print("\n------\n\(notes)")
 //			DispatchQueue.main.async {
 //				self.tableView.reloadData()
 //			}
@@ -66,7 +66,7 @@ func uploadPosts(_ notes: [Note], _ completionHandler: @escaping (_ genres: Bool
 			let noteForBack = NoteFromBase(imageURL: tempNote.imageURL, text: tempNote.text)
 			dataToLoad["note\(index)"] = noteForBack
 		}
-	print(dataToLoad)
+//	print(dataToLoad)
 	
 	//	let dataToLoad = posts
 	let config = URLSessionConfiguration.default
