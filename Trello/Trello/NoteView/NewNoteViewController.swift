@@ -193,9 +193,7 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.row == 0 {
 			let cell = imagePickerVC
-			cell.imagePicker.image = UIImage(named: "Photo")
-			cell.imageOnCell = NoteService.shared.notes[tempIndex].image
-			cell.imagePicker.contentMode = .scaleAspectFill
+			cell.imagePicker.image = NoteService.shared.notes[tempIndex].image
 			return cell
 			
 		} else {
@@ -227,15 +225,16 @@ extension NewNoteViewController : UIImagePickerControllerDelegate, UINavigationC
 	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 		if let image = info[.originalImage] as? UIImage {
 			let selectedImage : UIImage = image // вот картинка
-			//			NoteService.shared.notes[tempIndex].image = selectedImage
-			imagePickerVC.imageOnCell = nil
+			
 			imagePickerVC.imagePicker.image = selectedImage
 			imagePickerVC.imagePicker.contentMode = .scaleAspectFill
-			imagePickerVC.imageOnCell = selectedImage
 			imagePickerVC.imagePicker.clipsToBounds = true
+			imagePickerVC.reloadInputViews()
+			
+			NoteService.shared.notes[tempIndex].image = selectedImage
+			tableView.reloadData()
 			
 			imageIsPicked = true
-			self.tableView.reloadData()
 			dismiss(animated: true)
 		}
 	}
