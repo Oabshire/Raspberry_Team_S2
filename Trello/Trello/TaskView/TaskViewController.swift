@@ -71,7 +71,7 @@ class TaskViewController: UIViewController {
 			switch result {
 			case .success(let lists):
 				ModelCollection.shared.modelCollection = lists
-				print(lists)
+//				print(lists)
 				DispatchQueue.main.async {
 					self!.serverToDB(lists)
 					self?.collectionView.reloadData()
@@ -98,7 +98,7 @@ class TaskViewController: UIViewController {
 			
 		}
 		print("-------------")
-		print("array of tasks, ", AppDelegate.shared.array)
+//		print("array of tasks, ", AppDelegate.shared.array)
 		for index in 0 ..< listOfTasks.count {
 			for inexOfList in 0 ..< listOfCards.count {
 				
@@ -106,7 +106,7 @@ class TaskViewController: UIViewController {
 			}
 		}
 		//		print("count of cards: ", AppDelegate.shared.array.count)
-		print("array of tasks, ", AppDelegate.shared.array)
+//		print("array of tasks, ", AppDelegate.shared.array)
 	}
 	
 	

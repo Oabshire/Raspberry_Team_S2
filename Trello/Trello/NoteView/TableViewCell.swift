@@ -16,19 +16,20 @@ class TableViewCell: UITableViewCell {
 	let noteImage = UIImageView()
 	
 	var heightOfNote: CGFloat = 100
+	var haveImage: Bool = false
 	var isTapped = false
 	
 	public static let reuseId = "MyReuseID"
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: .default, reuseIdentifier: reuseIdentifier)
-		noteLabel.numberOfLines = 0
 		
+		noteLabel.numberOfLines = 0
 		noteLabel.font = UIFont.systemFont(ofSize: 20)
 		
+		noteImage.backgroundColor = .lightGray
 		
 		contentView.addSubview(noteLabel)
-		
 		contentView.addSubview(noteImage)
 		
 		noteImage.translatesAutoresizingMaskIntoConstraints = false
@@ -38,10 +39,7 @@ class TableViewCell: UITableViewCell {
 	
 	override func updateConstraints() {
 		
-		//		var heightOfImage: CGFloat = 200
-		var heightOfImage: CGFloat = 50 //(noteImage.image?.size.height)!
-		heightOfImage = heightOfImage == 0 ? 0 : 200
-		
+		let heightOfImage: CGFloat = haveImage ? 150 : 0
 		
 		noteImage.topAnchor.constraint(equalTo:contentView.topAnchor, constant: 10).isActive  = true
 		noteImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true

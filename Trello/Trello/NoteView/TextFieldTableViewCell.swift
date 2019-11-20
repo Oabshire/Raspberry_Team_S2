@@ -45,7 +45,11 @@ class TextFieldTableViewCell: UITableViewCell {
 		textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0).isActive = true
 		textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: 0).isActive = true
 		
-		textField.heightAnchor.constraint(equalToConstant: heightOfNote).isActive = true
+		let heightForContentView = textField.heightAnchor.constraint(equalToConstant: heightOfNote)
+		heightForContentView.priority = UILayoutPriority(rawValue: 999)
+		heightForContentView.isActive = true
+		
+//		textField.heightAnchor.constraint(equalToConstant: heightOfNote).isActive = true
 		
 		super.updateConstraints()
 	}

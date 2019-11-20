@@ -23,6 +23,8 @@ class NoteViewController: UIViewController {
 		}
 	}
 	
+	var dataTasks : [URLSessionDataTask] = []
+	
 	let noteService = NoteService.shared
 	
 	let loadView = DiamondLoad()
@@ -67,13 +69,6 @@ class NoteViewController: UIViewController {
 		view.addSubview(tableView)
 		
 		tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.reuseId)
-		
-		//		loadView.dotsColor = .cyan
-		//		loadView.frame.size = CGSize(width: 70, height: 70)
-		//		loadView.center = view.center
-		//		loadView.startAnimating()
-		//		view.addSubview(loadView)
-		
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -111,7 +106,6 @@ class NoteViewController: UIViewController {
 		let newNoteVC = NewNoteViewController()
 		
 		navigationController?.pushViewController(newNoteVC, animated: true)
-		
 	}
 	
 	@objc private func toggleEditing() {
@@ -123,7 +117,7 @@ class NoteViewController: UIViewController {
 extension NoteViewController: UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return NoteService.shared.notes.count//notesArray.count
+		return NoteService.shared.notes.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -131,22 +125,22 @@ extension NoteViewController: UITableViewDataSource {
 		let noteInDB: Note = NoteService.shared.notes[indexPath.row]
 		let heightOfText = noteInDB.text.heightWithConstrainedWidth(width: cell.contentView.frame.size.width, font: .systemFont(ofSize: 20))
 		let height = heightOfText < 100 ? heightOfText : 100
-		let index = indexPath
-		
 		if tableView.indexPathsForVisibleRows!.contains(indexPath), velocityOfTable == .zero {
 			let noteInDB: Note = NoteService.shared.notes[indexPath.row]
 			if noteInDB.image == nil {
-				//				print("image = nil:" , indexPath.row)
-				loadImage(stringUrl: noteInDB.imageURL, index: indexPath.row)
-				tableView.reloadData()
+				loadImage(ofIndex: indexPath.row)
 			}
 		}
+		
+		// индикатор загрузки
 		let loadIndicator = UIActivityIndicatorView()
 		loadIndicator.frame.size = CGSize(width: 100, height: 100)
 		loadIndicator.center = cell.contentView.center // не по центру (
 		loadIndicator.startAnimating()
+		
 		if noteInDB.imageURL != "" {
 			cell.contentView.addSubview(loadIndicator)
+			cell.haveImage = true
 		}
 		
 		cell.noteImage.image = noteInDB.image
@@ -155,6 +149,7 @@ extension NoteViewController: UITableViewDataSource {
 		if cell.noteImage.image != nil {
 			loadIndicator.stopAnimating()
 		}
+		
 		cell.noteLabel.text = noteInDB.text
 		cell.heightOfNote = height
 		cell.accessoryType = .disclosureIndicator
@@ -238,45 +233,31 @@ extension String {
 	}
 }
 
-extension NoteViewController {
-	func loadImage(stringUrl: String, index: Int){
-		var image = UIImage()
-		if let url = URL(string: stringUrl) {
-			
-			if let data = try? Data(contentsOf: url)
-			{
-				image = UIImage(data: data)!
-			}
-		}
-		NoteService.shared.notes[index].image = image
-		tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .fade)
-		
-	}
-}
-
 extension NoteViewController : UITableViewDataSourcePrefetching {
 	
 	func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
 		
+		//		print("prefetchRowsAt ", indexPaths)
+		
+		for indexPath in indexPaths {
+			self.loadImage(ofIndex: indexPath.row)
+		}
 	}
 	
-//	func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-//
-//	}
+	func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
+		
+		//		print("cancelPrefetchingForRowsAt ", indexPaths)
+		
+		for indexPath in indexPaths {
+			self.cancelLoading(ofIndex: indexPath.row)
+		}
+	}
+	
 	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
 		print("beginDragging: \(scrollView.contentOffset)")
 		velocityOfTable = CGPoint(x: 1, y: 1)
 		
 	}
-	
-	//	func scrollViewDidScroll(_ scrollView: UIScrollView) {
-	//			print("offset: \(scrollView.contentOffset)")
-	
-	//	}
-	
-	//	func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-	//
-	//	}
 	
 	func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
 		print("enddragging")
@@ -285,4 +266,65 @@ extension NoteViewController : UITableViewDataSourcePrefetching {
 		tableView.reloadRows(at: t, with: .fade)
 	}
 	
+}
+
+//MARK: - Uploading
+extension NoteViewController {
+	
+	func loadImage(ofIndex index: Int) {
+		
+		let indexPath = IndexPath(row: index, section: 0)
+		
+		if self.tableView.indexPathsForVisibleRows?.contains(indexPath) ?? false, NoteService.shared.notes[index].image == nil {
+			
+			let noteInDB = NoteService.shared.notes[index]
+			guard let url = URL(string: noteInDB.imageURL) else {return}
+			
+			var image = UIImage()
+			
+			if NoteService.shared.notes[index].image != nil {
+				return
+			}
+			
+			let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
+				guard let data = data else {
+					print("No data")
+					return
+				}
+				
+				image = UIImage(data: data)!
+				
+				NoteService.shared.notes[index].image = image
+				print("image loaded at ", index)
+				
+				// Update UI on main thread
+				DispatchQueue.main.async {
+					let indexPath = IndexPath(row: index, section: 0)
+					if self.tableView.indexPathsForVisibleRows?.contains(indexPath) ?? false {
+						print("tableView.reloadRows at ", index)
+						self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .fade)
+					}
+				}
+				
+			}
+			dataTask.resume()
+			dataTasks.append(dataTask)
+		}
+	}
+	
+	func cancelLoading(ofIndex index: Int) {
+		let noteInDB = NoteService.shared.notes[index]
+		guard let url = URL(string: noteInDB.imageURL) else {return}
+		
+		guard let dataTaskIndex = dataTasks.index(where: { task in
+			task.originalRequest?.url == url
+		}) else {
+			return
+		}
+		
+		let dataTask =  dataTasks[dataTaskIndex]
+		print("dataTask.cancel() at ", index)
+		dataTask.cancel()
+		dataTasks.remove(at: dataTaskIndex)
+	}
 }

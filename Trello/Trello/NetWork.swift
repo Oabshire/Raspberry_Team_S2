@@ -30,6 +30,7 @@ func downloadPosts(_ completionHandler: @escaping (_ genres: [NoteFromBase]) -> 
 			//			print(notes)
 			var notesFromFirebase = Array(notes.values)
 			notesFromFirebase = notesFromFirebase.sorted{$0.text < $1.text}
+			print("Success Load, number of notes: ", notesFromFirebase.count)
 			completionHandler(notesFromFirebase)
 		} catch {
 			print("\n------\n\(error)")
