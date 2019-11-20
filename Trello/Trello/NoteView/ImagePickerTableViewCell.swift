@@ -26,7 +26,7 @@ class ImagePickerTableViewCell: UITableViewCell {
 		
 		
 		contentView.backgroundColor = .white
-		let image = imageOnCell 
+		let image = imageOnCell
 		imagePicker = UIImageView(image: image)
 		imagePicker.contentMode = .scaleToFill
 		contentView.addSubview(imagePicker)
@@ -42,12 +42,20 @@ class ImagePickerTableViewCell: UITableViewCell {
 	override func updateConstraints() {
 		//        imagePicker.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
 		
-		imagePicker.heightAnchor.constraint(equalToConstant: 200).isActive = true
+//		imagePicker.heightAnchor.constraint(equalToConstant: 200).isActive = true
 		imagePicker.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-		imagePicker.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-		imagePicker.widthAnchor.constraint(equalTo: imagePicker.heightAnchor).isActive = true
+//		imagePicker.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+//		imagePicker.widthAnchor.constraint(equalTo: imagePicker.heightAnchor).isActive = true
+		
+		imagePicker.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 2).isActive = true
+		imagePicker.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -2).isActive = true
+		
 		imagePicker.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5).isActive = true
 		imagePicker.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -5).isActive = true
+		
+		let heightForContentView = imagePicker.heightAnchor.constraint(equalToConstant: 200)
+		heightForContentView.priority = UILayoutPriority(rawValue: 999)
+		heightForContentView.isActive = true
 		
 		super.updateConstraints()
 	}
