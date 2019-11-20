@@ -13,9 +13,11 @@ import UIKit
 class Column {
 	var name: String
 	var rows = [String]()
+	var id: String?
 	
-	init(name: String) {
+	init(name: String, id: String?) {
 		self.name = name
+		self.id = id
 	}
 }
 
@@ -38,6 +40,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		window?.rootViewController = RootViewController()
 		
 		session = URLSession(configuration: config)
+		
+//		AppDelegate.defaults.set(true, forKey: "loggedIn")
 		
 		return true
 	}

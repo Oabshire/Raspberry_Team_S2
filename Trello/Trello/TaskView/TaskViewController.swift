@@ -93,16 +93,18 @@ class TaskViewController: UIViewController {
 		let listOfTasks = list.cards
 		
 		for index in 0 ..< listOfCards.count {
-			let column = Column(name: listOfCards[index]!.name)
+			let column = Column(name: listOfCards[index]!.name, id: listOfCards[index]?.id)
 			AppDelegate.shared.array.append(column)
 			
 		}
 		print("-------------")
 //		print("array of tasks, ", AppDelegate.shared.array)
 		for index in 0 ..< listOfTasks.count {
-			for inexOfList in 0 ..< listOfCards.count {
-				
-				AppDelegate.shared.array[inexOfList].rows.append(listOfTasks[index]!.name)
+//			for inexOfList in 0 ..< listOfCards.count {
+				let task = listOfTasks[index]?.idList
+			if let indexTemp = AppDelegate.shared.array.firstIndex(where: {$0.id == task}) {
+//				let indexOfCurrentList = AppDelegate.shared.array.firstIndex{$0.name == indexTemp?.name}
+				AppDelegate.shared.array[indexTemp].rows.append(listOfTasks[index]!.name)
 			}
 		}
 		//		print("count of cards: ", AppDelegate.shared.array.count)
@@ -141,7 +143,7 @@ class TaskViewController: UIViewController {
 			// @fix
 			let textField = addTaskAllert.textFields![0] as UITextField
 			if let text = textField.text {
-				AppDelegate.shared.array.append(Column(name: text))
+				AppDelegate.shared.array.append(Column(name: text, id: UUID().uuidString))
 				Net.shared.addNewList(listName: text , completion: { [weak self] (result) in
 					switch result {
 					case .success(let lists):
