@@ -40,15 +40,16 @@ class TextFieldTableViewCell: UITableViewCell {
 	}
 	
 	override func updateConstraints() {
+		textField.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
 		
-		textField.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant:  5).isActive = true
-		textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 2).isActive = true
-		textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2).isActive = true
-		textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5).isActive = true
+		textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0).isActive = true
+		textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: 0).isActive = true
 		
 		let heightForContentView = textField.heightAnchor.constraint(equalToConstant: heightOfNote)
 		heightForContentView.priority = UILayoutPriority(rawValue: 999)
 		heightForContentView.isActive = true
+		
+//		textField.heightAnchor.constraint(equalToConstant: heightOfNote).isActive = true
 		
 		super.updateConstraints()
 	}

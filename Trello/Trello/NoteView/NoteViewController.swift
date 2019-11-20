@@ -190,9 +190,10 @@ extension NoteViewController: UITableViewDelegate {
 		
 		newNoteVC.textFieldVC.textField.text = NoteService.shared.notes[indexPath.row].text
 		
+		newNoteVC.imagePickerVC.imageView!.image = NoteService.shared.notes[indexPath.row].image
 		newNoteVC.tempIndex = indexPath.row
 		NoteService.shared.isEdit = true
-		
+		//noteService.isEdit = true
 		navigationController?.pushViewController(newNoteVC, animated: true)
 		
 	}
