@@ -38,10 +38,11 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 		
 		view.addSubview(tableView)
 		
-		textFieldVC.textField.frame = view.frame
-		textFieldVC.textField.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-		textFieldVC.textField.font = UIFont.systemFont(ofSize: 20)
-		view.addSubview(textFieldVC)
+//		textFieldVC.textField.frame = CGRect(origin: view.frame.origin, size: CGSize(width: view.frame.size.width, height: 200))//view.frame
+//		textFieldVC.backgroundColor = .lightGray
+//		textFieldVC.textField.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+//		textFieldVC.textField.font = UIFont.systemFont(ofSize: 20)
+//		view.addSubview(textFieldVC)
 		
 		
 		
@@ -98,11 +99,13 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 		} else {
 			
 			if let temp = textFieldVC.textField.text {
-				
 				let image = (imagePickerVC.imagePicker.image)?.resized(toWidth: 200)
-				
-				NoteService.shared.notes.append(Note(text: temp, image: image, imageURL: ""))
+				NoteService.shared.notes[tempIndex].text = temp
 				if image != nil {
+					
+					let image = (imagePickerVC.imagePicker.image)?.resized(toWidth: 200)
+					NoteService.shared.notes[tempIndex].image = image
+					
 					upload(image: image, withName: "image\(tempIndex!)") {
 						urlOfImage in
 						DispatchQueue.main.async {
@@ -193,11 +196,14 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.row == 0 {
 			let cell = imagePickerVC
-			cell.imagePicker.image = NoteService.shared.notes[tempIndex].image
+			cell.imagePicker.image = NoteService.shared.notes[tempIndex].image ?? UIImage(named: "Photo")
 			return cell
 			
 		} else {
 			let cell = textFieldVC
+			let topSafeArea = view.safeAreaInsets.top
+			let bottomSafeArea = view.safeAreaInsets.bottom
+			textFieldVC.heightOfNote = view.frame.size.height - imagePickerVC.frame.size.height - topSafeArea - bottomSafeArea
 			return cell
 		}
 	}

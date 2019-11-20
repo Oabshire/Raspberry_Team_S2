@@ -50,7 +50,7 @@ class NoteViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		let barItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(itemPressed))
+		let barItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNote))
 		navigationController?.viewControllers[0].navigationItem.rightBarButtonItem = barItem
 		
 		let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditing))
@@ -102,8 +102,11 @@ class NoteViewController: UIViewController {
 	
 	
 	@objc
-	func itemPressed() {
+	func addNote() {
 		let newNoteVC = NewNoteViewController()
+		
+		NoteService.shared.notes.append(Note(text: "", image: nil, imageURL: ""))
+		newNoteVC.tempIndex = NoteService.shared.notes.count - 1
 		
 		navigationController?.pushViewController(newNoteVC, animated: true)
 	}
@@ -190,10 +193,9 @@ extension NoteViewController: UITableViewDelegate {
 		
 		newNoteVC.textFieldVC.textField.text = NoteService.shared.notes[indexPath.row].text
 		
-//		newNoteVC.imagePickerVC.imageView!.image = NoteService.shared.notes[indexPath.row].image
 		newNoteVC.tempIndex = indexPath.row
 		NoteService.shared.isEdit = true
-		//noteService.isEdit = true
+		
 		navigationController?.pushViewController(newNoteVC, animated: true)
 		
 	}
@@ -262,8 +264,6 @@ extension NoteViewController : UITableViewDataSourcePrefetching {
 	func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
 		print("enddragging")
 		velocityOfTable = .zero
-		let t = tableView.indexPathsForVisibleRows!
-		tableView.reloadRows(at: t, with: .fade)
 	}
 	
 }
@@ -307,24 +307,28 @@ extension NoteViewController {
 				}
 				
 			}
+			print("dataTask.resume() at ")
 			dataTask.resume()
 			dataTasks.append(dataTask)
 		}
 	}
 	
 	func cancelLoading(ofIndex index: Int) {
+		let indexPath = IndexPath(row: index, section: 0)
 		let noteInDB = NoteService.shared.notes[index]
-		guard let url = URL(string: noteInDB.imageURL) else {return}
-		
-		guard let dataTaskIndex = dataTasks.index(where: { task in
-			task.originalRequest?.url == url
-		}) else {
-			return
+		if !(self.tableView.indexPathsForVisibleRows?.contains(indexPath) ?? true) {
+			guard let url = URL(string: noteInDB.imageURL) else {return}
+			
+			guard let dataTaskIndex = dataTasks.index(where: { task in
+				task.originalRequest?.url == url
+			}) else {
+				return
+			}
+			
+			let dataTask =  dataTasks[dataTaskIndex]
+			print("dataTask.cancel() at ", index)
+			dataTask.cancel()
+			dataTasks.remove(at: dataTaskIndex)
 		}
-		
-		let dataTask =  dataTasks[dataTaskIndex]
-		print("dataTask.cancel() at ", index)
-		dataTask.cancel()
-		dataTasks.remove(at: dataTaskIndex)
 	}
 }

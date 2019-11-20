@@ -12,7 +12,7 @@ class TextFieldTableViewCell: UITableViewCell {
 	
 	let textField = UITextView()
 	
-	var heightOfNote: CGFloat = 500
+	var heightOfNote: CGFloat = 200
 	
 	public static let reuseId = "TextID"
 	
@@ -20,10 +20,11 @@ class TextFieldTableViewCell: UITableViewCell {
 		super.init(style: .default, reuseIdentifier: reuseIdentifier)
 		
 		textField.font = UIFont.systemFont(ofSize: 20)
-		textField.frame = contentView.frame
+//		textField.frame = contentView.frame
+		textField.backgroundColor = .white
 		contentView.addSubview(textField)
 		
-		textField.translatesAutoresizingMaskIntoConstraints = true
+		textField.translatesAutoresizingMaskIntoConstraints = false
 		
 	}
 	
@@ -40,16 +41,21 @@ class TextFieldTableViewCell: UITableViewCell {
 	}
 	
 	override func updateConstraints() {
-		textField.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+//		textField.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
 		
-		textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0).isActive = true
-		textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: 0).isActive = true
+		textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 2).isActive = true
+		textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0).isActive = true
 		
-		let heightForContentView = textField.heightAnchor.constraint(equalToConstant: heightOfNote)
-		heightForContentView.priority = UILayoutPriority(rawValue: 999)
-		heightForContentView.isActive = true
+		textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5).isActive = true
+		textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -5).isActive = true
 		
-//		textField.heightAnchor.constraint(equalToConstant: heightOfNote).isActive = true
+//		textField.heightAnchor.constraint(greaterThanOrEqualToConstant: heightOfNote).isActive = true
+		
+//		let heightForContentView = textField.heightAnchor.constraint(equalToConstant: 500)
+//		heightForContentView.priority = UILayoutPriority(rawValue: 999)
+//		heightForContentView.isActive = true
+		
+		textField.heightAnchor.constraint(equalToConstant: heightOfNote).isActive = true
 		
 		super.updateConstraints()
 	}
