@@ -256,13 +256,13 @@ extension NoteViewController : UITableViewDataSourcePrefetching {
 	}
 	
 	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-		print("beginDragging: \(scrollView.contentOffset)")
+//		print("beginDragging: \(scrollView.contentOffset)")
 		velocityOfTable = CGPoint(x: 1, y: 1)
 		
 	}
 	
 	func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-		print("enddragging")
+//		print("enddragging")
 		velocityOfTable = .zero
 	}
 	

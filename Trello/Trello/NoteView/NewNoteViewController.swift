@@ -63,16 +63,20 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 			NoteService.shared.isEdit = false
 			if let temp = textFieldVC.textField.text {
 				let image = (imagePickerVC.imagePicker.image)?.resized(toWidth: 200)
-				
+				let tempIm = UIImage(named: "Photo")
 				NoteService.shared.notes[tempIndex].text = temp
-				NoteService.shared.notes[tempIndex].image = image
+				if image == UIImage(named: "Photo") {
+					NoteService.shared.notes[tempIndex].image = nil
+				} else {
+					NoteService.shared.notes[tempIndex].image = image
+				}
 				if image != nil {
 					
 					upload(image: image, withName: "image\(tempIndex!)") {
 						urlOfImage in
 						DispatchQueue.main.async {
 							
-//							print("tempIndex: ", self.tempIndex)
+							//							print("tempIndex: ", self.tempIndex)
 							NoteService.shared.notes[self.tempIndex].imageURL = urlOfImage
 							print("notes: ", NoteService.shared.notes)
 							
@@ -99,14 +103,16 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 		} else {
 			
 			if let temp = textFieldVC.textField.text {
-				let image = (imagePickerVC.imagePicker.image)?.resized(toWidth: 200)
+				let imageForNote = (imagePickerVC.imagePicker.image)?.resized(toWidth: 200)
 				NoteService.shared.notes[tempIndex].text = temp
-				if image != nil {
+				if imageForNote != nil {
+					if imagePickerVC.imagePicker.image == UIImage(named: "Photo") {
+						NoteService.shared.notes[tempIndex].image = nil
+					} else {
+						NoteService.shared.notes[tempIndex].image = imageForNote
+					}
 					
-					let image = (imagePickerVC.imagePicker.image)?.resized(toWidth: 200)
-					NoteService.shared.notes[tempIndex].image = image
-					
-					upload(image: image, withName: "image\(tempIndex!)") {
+					upload(image: imageForNote, withName: "image\(tempIndex!)") {
 						urlOfImage in
 						DispatchQueue.main.async {
 							print("tempIndex: ", self.tempIndex)
