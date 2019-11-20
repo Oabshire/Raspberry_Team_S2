@@ -144,8 +144,8 @@
 			isa = PBXGroup;
 			children = (
 				096524CE2378053C0047D8D1 /* NoteViewController.swift */,
-				096524D0237805700047D8D1 /* NewNoteViewController.swift */,
 				369D8B082378C18300CF4708 /* TableViewCell.swift */,
+				096524D0237805700047D8D1 /* NewNoteViewController.swift */,
 				A7D924C7237F26190034ABAB /* ImagePickerTableViewCell.swift */,
 				A7D924C8237F26190034ABAB /* TextFieldTableViewCell.swift */,
 				36419F1A2379DB3400E95AE5 /* NoteService.swift */,

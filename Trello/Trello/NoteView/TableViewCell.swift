@@ -49,7 +49,7 @@ class TableViewCell: UITableViewCell {
 		noteLabel.topAnchor.constraint(equalTo: noteImage.bottomAnchor, constant:  10).isActive = true
 		noteLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 2).isActive = true
 		noteLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2).isActive = true
-		noteLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 1).isActive = true
+		noteLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5).isActive = true
 		
 		let heightForContentView = noteLabel.heightAnchor.constraint(equalToConstant: heightOfNote)
 		heightForContentView.priority = UILayoutPriority(rawValue: 999)

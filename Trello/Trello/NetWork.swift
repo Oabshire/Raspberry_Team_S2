@@ -1,6 +1,6 @@
 //
 //  NetWork.swift
-//  VKnotes
+//
 //
 //  Created by Дарья Витер on 17/11/2019.
 //  Copyright © 2019 Fems. All rights reserved.
@@ -30,7 +30,7 @@ func downloadPosts(_ completionHandler: @escaping (_ genres: [NoteFromBase]) -> 
 			//			print(notes)
 			var notesFromFirebase = Array(notes.values)
 			notesFromFirebase = notesFromFirebase.sorted{$0.text < $1.text}
-			print("Success Load, number of notes: ", notesFromFirebase.count)
+			print("Success Load Notes, number of notes: ", notesFromFirebase.count)
 			completionHandler(notesFromFirebase)
 		} catch {
 			print("\n------\n\(error)")
