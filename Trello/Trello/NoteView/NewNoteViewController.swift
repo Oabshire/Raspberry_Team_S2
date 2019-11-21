@@ -65,7 +65,7 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 				let image = (imagePickerVC.imagePicker.image)?.resized(toWidth: 200)
 				let tempIm = UIImage(named: "Photo")
 				NoteService.shared.notes[tempIndex].text = temp
-				if image == UIImage(named: "Photo") {
+				if imagePickerVC.imagePicker.image == UIImage(named: "Photo") {
 					NoteService.shared.notes[tempIndex].image = nil
 				} else {
 					NoteService.shared.notes[tempIndex].image = image
