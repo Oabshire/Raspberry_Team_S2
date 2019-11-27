@@ -58,6 +58,8 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 	
 	@objc
 	func saveNote(){
+		navigationController?.viewControllers[1].navigationItem.rightBarButtonItem?.isEnabled = false
+		navigationController?.viewControllers[1].navigationItem.rightBarButtonItem?.tintColor = .gray
 		
 		if NoteService.shared.isEdit {
 			NoteService.shared.isEdit = false
@@ -87,6 +89,9 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 								print(result)
 								print("--------------------")
 								print("Notes uploaded")
+								DispatchQueue.main.async {
+									self.navigationController?.popViewController(animated: true)
+								}
 							}
 						}
 					}
@@ -96,6 +101,9 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 						print(result)
 						print("--------------------")
 						print("Notes uploaded")
+						DispatchQueue.main.async {
+							self.navigationController?.popViewController(animated: true)
+						}
 					}
 				}
 				
@@ -126,6 +134,9 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 								print(result)
 								print("--------------------")
 								print("Notes uploaded")
+								DispatchQueue.main.async {
+									self.navigationController?.popViewController(animated: true)
+								}
 							}
 						}
 					}
@@ -135,6 +146,9 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 						print(result)
 						print("--------------------")
 						print("Notes uploaded")
+						DispatchQueue.main.async {
+							self.navigationController?.popViewController(animated: true)
+						}
 					}
 				}
 			}
@@ -155,7 +169,7 @@ class NewNoteViewController: UIViewController, UITableViewDataSource, UITableVie
 		//
 		//		textFieldVC.textField.resignFirstResponder()
 		//		noteService.isEdit = false
-		navigationController?.popViewController(animated: true)
+//		navigationController?.popViewController(animated: true)
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
