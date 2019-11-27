@@ -33,11 +33,11 @@ class SignInViewController: UIViewController {
 		
 		modalPresentationStyle = .fullScreen
 		
-		if #available(iOS 13.0, *) {
+//		if #available(iOS 13.0, *) {
 			present(Authorization(), animated: true, completion: nil)
-		} else {
+//		} else {
 			// Fallback on earlier versions
-		}
+//		}
 		
 		//        AppDelegate.defaults.set(true, forKey: "loggedIn")
 		//        AppDelegate.shared.rootViewController.switchToMainScreen()
