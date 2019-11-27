@@ -28,7 +28,7 @@ class ImagePickerTableViewCell: UITableViewCell {
 		contentView.backgroundColor = .white
 		let image = imageOnCell
 		imagePicker = UIImageView(image: image)
-		imagePicker.contentMode = .scaleToFill
+		imagePicker.contentMode = .scaleAspectFit
 		contentView.addSubview(imagePicker)
 		
 		

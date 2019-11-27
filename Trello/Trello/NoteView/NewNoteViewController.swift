@@ -253,7 +253,7 @@ extension NewNoteViewController : UIImagePickerControllerDelegate, UINavigationC
 			let selectedImage : UIImage = image // вот картинка
 			
 			imagePickerVC.imagePicker.image = selectedImage
-			imagePickerVC.imagePicker.contentMode = .scaleAspectFill
+			imagePickerVC.imagePicker.contentMode = .scaleAspectFit
 			imagePickerVC.imagePicker.clipsToBounds = true
 			imagePickerVC.reloadInputViews()
 			
